@@ -80,7 +80,7 @@ const pool=mysql.createPool(process.env.JAWSDB_URL || {
     database:process.env.DB_DATABASE,
 })
 
-app.listen(4000,()=>{
+app.listen(process.env.PORT||5000,()=>{
     console.log('SERVER connected')
 })
 
