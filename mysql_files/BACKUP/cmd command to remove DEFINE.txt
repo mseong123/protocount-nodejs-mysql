@@ -1,1 +1,1 @@
-sed 's/<string>// <source file> > <target file>
+sed 's/<string>//' <source file> > <target file>
