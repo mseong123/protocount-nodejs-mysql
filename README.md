@@ -13,6 +13,9 @@ Back end web server logic built using NodeJS(ExpressJS Framework) for request/re
 Most CRUD (Create,Read,Update,Delete) operations for the App are stored in Stored Procedures (located in /mysql_files folder).
 
 
+Front end files (HTML,CSS,js) stored in /build folder are built using create-react-app. See [protocount-create-react-app](https://github.com/mseong123/protocount-create-react-app) repository. 
+
+
 ### Quick Installation/Usage
 1) Clone this repository to target local folder and npm install dependencies.
 
@@ -27,7 +30,7 @@ npm install
 **Install 8.0 and above versions only and use recommended installation options.**
 
 3) Once MySQL server is installed, log into MySQL server instance using the root account (created during installation process) and 
-create a MySQL account which mysql-node npm package driver can connect to. **Please type in the following SQL command specifically once logged into root account in order for driver to work** 
+create a MySQL account which mysql-node npm package driver can connect to. **Use the following SQL command AS SPECIFIED to create the account in order for the driver to work** 
 
 ```
 CREATE USER '<username>' IDENTIFIED WITH mysql_native_password BY '<password>';
@@ -52,19 +55,13 @@ COOKIEKEY_2=econs
 
 ```
 
-5) type node index.js to initiate webserver/app at port 4000
+5) navigate back to root path in this local repository and type node index.js to initiate webserver/app at port 4000.
 6) open browser and type in URL `localhost:4000` and app will be served.
 
 ### Other information
+The above installation/set up guidelines have to be done even if [protocount-create-react-app](https://github.com/mseong123/protocount-create-react-app) is initialised for development purpose. The backend will work with the create-react-app front end development environment in the link if settings are not changed (ie ports are not changed in index.js).  
+//
+All build files should be stored in /build folder. The most current production build files from [protocount-create-react-app](https://github.com/mseong123/protocount-create-react-app) build process for the front end are contained in /build in this repository and will be served once the URL is set to `localhost:4000`. 
 
 
-
-
-
-
-
-
-Copy and paste files from build process in [protocount-create-react-app] (https://github.com/mseong123/protocount-create-react-app) 
-(/build folder) and pas
-
-
+Any problems or bugs, please message me. Thanks!
