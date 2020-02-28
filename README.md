@@ -69,7 +69,7 @@ The above guidelines have to be done even if [protocount-create-react-app](https
 All build files should be stored in /build folder. The most current production build files from [protocount-create-react-app](https://github.com/mseong123/protocount-create-react-app) are contained in /build in this repository and will be served once the URL is set to `localhost:4000` in browser.
 
 
-The database schema is stored in mysql_files/SCHEMA and can be opened using MySQL Workshop (installed as part of a bundle together with MySQL Community Server). All stored procedures SQL queries are stored in mysql_files/STORED PROCEDURES.
+The database schema is stored in mysql_files/SCHEMA and can be opened using MySQL Workshop (installed as part of a bundle together with MySQL Community Server by default). All stored procedures SQL queries used for this app are stored in mysql_files/STORED PROCEDURES.
 
 
 
