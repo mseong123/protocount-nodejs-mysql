@@ -8,16 +8,16 @@ Please use the following login details to access the app and experiment:
 > Password: password
 
 ### Description
-Back end web server logic built using NodeJS(ExpressJS Framework) for request/response routing and MySQL for database 
+Back end web server built using NodeJS (ExpressJS Framework) for request/response routing and MySQL for database 
 (including mysql-node npm package for MySQL driver).
-Most CRUD (Create,Read,Update,Delete) operations for the App are stored in Stored Procedures (located in /mysql_files folder).
+Most CRUD (Create,Read,Update,Delete) operations for the App are executed using database Stored Procedures consistent with best practices.
 
 
-Front end files (HTML,CSS,js) stored in /build folder are built using create-react-app. See [protocount-create-react-app](https://github.com/mseong123/protocount-create-react-app) repository. 
+Front end files (HTML, CSS, Javascript) stored in /build folder are built using create-react-app. See [protocount-create-react-app](https://github.com/mseong123/protocount-create-react-app) repository. 
 
 
 ### Quick Installation/Usage
-The following guidelines is to set up a local web server which can serve the app over the browser and also installs a database for the app's core functionalities.
+The following guidelines' purpose is to enable the set up of a local nodejs web server which can serve the app over the browser and also installs a database for the app's core functionalities.
 
 1) Clone this repository to target local folder and npm install dependencies.
 
