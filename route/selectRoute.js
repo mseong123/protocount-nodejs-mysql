@@ -250,7 +250,11 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_BANK_RECEIPTLIST()',(error,data,field)=>{
+
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            })
         break; 
 
         case 'bank_payment':
@@ -259,7 +263,11 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_BANK_PAYMENTLIST()',(error,data,field)=>{
+
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            })
         break; 
 
         case 'cash_receipt':
@@ -268,7 +276,12 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_CASH_RECEIPTLIST()',(error,data,field)=>{
+
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            })
+        break; 
         break; 
 
         case 'cash_payment':
@@ -277,7 +290,11 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_CASH_PAYMENTLIST()',(error,data,field)=>{
+
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            })
         break; 
 
         case 'journal':
