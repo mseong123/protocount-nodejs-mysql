@@ -44,6 +44,12 @@ function deleteRoute(req,res,next,pool) {
         })
         break; 
 
+        case 'purchase_return':
+        pool.query('CALL DELETE_PURCHASE_RETURN(?)',[req.body.id],(error,data,field)=>{
+            res.send({error,data:data?data[0]:null,field:field?field[0]:null});
+        })
+        break; 
+
         case 'purchase_invoice':
         pool.query('CALL DELETE_PURCHASE_INVOICE(?)',[req.body.id],(error,data,field)=>{
             res.send({error,data:data?data[0]:null,field:field?field[0]:null});
@@ -67,19 +73,27 @@ function deleteRoute(req,res,next,pool) {
         break; 
 
         case 'bank_receipt':
-        deleteAll(req,res,next,pool);
+        pool.query('CALL DELETE_BANK_RECEIPT(?)',[req.body.id],(error,data,field)=>{
+            res.send({error,data:data?data[0]:null,field:field?field[0]:null});
+        })
         break; 
 
         case 'bank_payment':
-        deleteAll(req,res,next,pool);
+        pool.query('CALL DELETE_BANK_PAYMENT(?)',[req.body.id],(error,data,field)=>{
+            res.send({error,data:data?data[0]:null,field:field?field[0]:null});
+        })
         break; 
 
         case 'cash_receipt':
-        deleteAll(req,res,next,pool);
+        pool.query('CALL DELETE_CASH_RECEIPT(?)',[req.body.id],(error,data,field)=>{
+            res.send({error,data:data?data[0]:null,field:field?field[0]:null});
+        })
         break; 
 
         case 'cash_payment':
-        deleteAll(req,res,next,pool);
+        pool.query('CALL DELETE_CASH_PAYMENT(?)',[req.body.id],(error,data,field)=>{
+            res.send({error,data:data?data[0]:null,field:field?field[0]:null});
+        })
         break; 
 
         case 'journal':

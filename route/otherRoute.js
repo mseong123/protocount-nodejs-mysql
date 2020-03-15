@@ -1,3 +1,5 @@
+const dateParser=require('../utilities/dateParser')
+
 function getIDList (req,res,next,pool) {
     if (req.body) 
         pool.query('SELECT '+pool.escapeId(req.body.item+'_NUM')+' AS ID FROM '+ pool.escapeId(req.body.item),(error,data,field)=>
@@ -75,6 +77,7 @@ function getEligibleGLAccount (req,res,next,pool) {
                 res.send({error,data,field})
             )
             break;
+
         }
         
         
@@ -83,5 +86,25 @@ function getEligibleGLAccount (req,res,next,pool) {
         
 }
 
+function getDebtorOutstanding (req,res,next,pool) {
+    if (req.body) 
+        pool.query('CALL SELECT_DEBTOR_OUTSTANDING(?,?)',[req.body.debtorNum,req.body.oldNum],(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+        })
+    else next('Error happened during /getDebtorOutstanding request route.')
+}
+
+function getCreditorOutstanding (req,res,next,pool) {
+    if (req.body) 
+        pool.query('CALL SELECT_CREDITOR_OUTSTANDING(?,?)',[req.body.creditorNum,req.body.oldNum],(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+        })
+    else next('Error happened during /getCreditorOutstanding request route.')
+}
+
 module.exports.getIDList=getIDList;
 module.exports.getEligibleGLAccount=getEligibleGLAccount;
+module.exports.getDebtorOutstanding=getDebtorOutstanding;
+module.exports.getCreditorOutstanding=getCreditorOutstanding;

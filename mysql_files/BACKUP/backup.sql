@@ -77,7 +77,7 @@ CREATE TABLE `bank_payment` (
 
 LOCK TABLES `bank_payment` WRITE;
 /*!40000 ALTER TABLE `bank_payment` DISABLE KEYS */;
-INSERT INTO `bank_payment` VALUES ('BP-1','BANK-3',NULL,'2019-12-10','CHEQUE','MAYBANK02383','PETTY CASH WITHDRAWAL FOR BBC',500.00,320),('BP-2','BANK-2','CRED-1','2019-12-02','CHEQUE','OCBC0284',NULL,200.00,NULL);
+INSERT INTO `bank_payment` VALUES ('BP-1','BANK-3',NULL,'2019-12-10','CHEQUE','MAYBANK02383','PETTY CASH WITHDRAWAL FOR BBC1',500.00,320),('BP-2','BANK-2','CRED-1','2019-12-02','CHEQUE','OCBC0284',NULL,200.00,NULL);
 /*!40000 ALTER TABLE `bank_payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +114,7 @@ CREATE TABLE `bank_receipt` (
 
 LOCK TABLES `bank_receipt` WRITE;
 /*!40000 ALTER TABLE `bank_receipt` DISABLE KEYS */;
-INSERT INTO `bank_receipt` VALUES ('BR-1','BANK-2','DEB-1','2019-12-11','CHEQUE','OCBC0281',NULL,500.00,NULL),('BR-2','BANK-2','DEB-2','2019-12-11','CHEQUE','OCBC0282',NULL,275.00,NULL),('BR-3','BANK-3',NULL,'2018-03-01','CHEQUE','MBB001','INITIAL CASH INFUSION FROM OWNER',500000.00,100);
+INSERT INTO `bank_receipt` VALUES ('BR-3','BANK-3',NULL,'2018-03-01','CHEQUE','MBB001','INITIAL CASH INFUSION FROM OWNER',500000.00,100),('BR-4','BANK-2','DEB-2','2019-12-11','CHEQUE','OCBC0282',NULL,275.00,NULL);
 /*!40000 ALTER TABLE `bank_receipt` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +151,7 @@ CREATE TABLE `cash_payment` (
 
 LOCK TABLES `cash_payment` WRITE;
 /*!40000 ALTER TABLE `cash_payment` DISABLE KEYS */;
-INSERT INTO `cash_payment` VALUES ('CP-1',NULL,'2019-12-10','CASH','INV501','KEDAI HOCK SENG ADVERT',500.00,901,320),('CP-2',NULL,'2019-12-02','CASH',NULL,NULL,300.00,210,320),('CP-3','CRED-1','2020-01-08','CHEQUE',NULL,NULL,500.00,NULL,320);
+INSERT INTO `cash_payment` VALUES ('CP-1',NULL,'2019-12-10','CASH','INV501','KEDAI HOCK SENG ADVERT',500.00,901,320),('CP-2',NULL,'2019-12-02','CASH',NULL,NULL,300.00,210,320),('CP-3','CRED-1','2020-01-08','CHEQUE',NULL,NULL,300.00,NULL,320);
 /*!40000 ALTER TABLE `cash_payment` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +188,7 @@ CREATE TABLE `cash_receipt` (
 
 LOCK TABLES `cash_receipt` WRITE;
 /*!40000 ALTER TABLE `cash_receipt` DISABLE KEYS */;
-INSERT INTO `cash_receipt` VALUES ('CR-1',NULL,'2019-12-02','CASH',NULL,'CASH',400.00,305,320),('CR-2','DEB-1','2019-12-09','CASH',NULL,'CASH',170.00,NULL,320);
+INSERT INTO `cash_receipt` VALUES ('CR-1',NULL,'2019-12-02','CASH',NULL,'CASH',300.01,305,320),('CR-3','DEB-2','2019-12-09','CASH',NULL,'CASH',275.00,NULL,320);
 /*!40000 ALTER TABLE `cash_receipt` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +219,7 @@ CREATE TABLE `credit_note` (
 
 LOCK TABLES `credit_note` WRITE;
 /*!40000 ALTER TABLE `credit_note` DISABLE KEYS */;
-INSERT INTO `credit_note` VALUES ('CN-1','2020-01-31','DISCOUNT','DEB-3',560);
+INSERT INTO `credit_note` VALUES ('CN-1','2020-01-31','DISCOUNT','DEB-3',560),('CN-2','2020-03-03','Another discount','DEB-2',550);
 /*!40000 ALTER TABLE `credit_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -251,7 +251,7 @@ CREATE TABLE `credit_noteline` (
 
 LOCK TABLES `credit_noteline` WRITE;
 /*!40000 ALTER TABLE `credit_noteline` DISABLE KEYS */;
-INSERT INTO `credit_noteline` (`CREDIT_NOTE_NUM`, `CREDIT_NOTELINE_LINENUMBER`, `CREDIT_NOTELINE_STOCK_NUM`, `CREDIT_NOTELINE_STOCK_DESC`, `CREDIT_NOTELINE_STOCK_PRICE`, `CREDIT_NOTELINE_STOCK_QTY`, `CREDIT_NOTELINE_DISCOUNT`) VALUES ('CN-1',1,NULL,'OVERALL DISCOUNT DUE TO MUPPETNESS',500.00,1,0.00);
+INSERT INTO `credit_noteline` (`CREDIT_NOTE_NUM`, `CREDIT_NOTELINE_LINENUMBER`, `CREDIT_NOTELINE_STOCK_NUM`, `CREDIT_NOTELINE_STOCK_DESC`, `CREDIT_NOTELINE_STOCK_PRICE`, `CREDIT_NOTELINE_STOCK_QTY`, `CREDIT_NOTELINE_DISCOUNT`) VALUES ('CN-1',1,NULL,'OVERALL DISCOUNT DUE TO MUPPETNESS',550.00,1,0.00),('CN-2',1,NULL,'ANOTHER DISCOUNT',200.00,1,0.00);
 /*!40000 ALTER TABLE `credit_noteline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,8 +315,93 @@ CREATE TABLE `debit_note` (
 
 LOCK TABLES `debit_note` WRITE;
 /*!40000 ALTER TABLE `debit_note` DISABLE KEYS */;
-INSERT INTO `debit_note` VALUES ('DN-1','2020-01-28','UNDERCHARGED SALES + SOMETHING','DEB-3',500);
+INSERT INTO `debit_note` VALUES ('DN-1','2020-01-28','UNDERCHARGED SALES + SOMETHING','DEB-3',500),('DN-2','2020-03-03',NULL,'DEB-1',500);
 /*!40000 ALTER TABLE `debit_note` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `debit_note_bank_receipt`
+--
+
+DROP TABLE IF EXISTS `debit_note_bank_receipt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `debit_note_bank_receipt` (
+  `BANK_RECEIPT_NUM` varchar(10) NOT NULL,
+  `DEBIT_NOTE_NUM` varchar(10) NOT NULL,
+  `DEBIT_NOTE_BANK_RECEIPT_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`DEBIT_NOTE_NUM`,`BANK_RECEIPT_NUM`),
+  KEY `fk_DEBIT_NOTE_BANK_RECEIPT_DEBIT_NOTE1_idx` (`DEBIT_NOTE_NUM`),
+  KEY `fk_DEBIT_NOTE_BANK_RECEIPT_BANK_RECEIPT1_idx` (`BANK_RECEIPT_NUM`),
+  CONSTRAINT `fk_DEBIT_NOTE_BANK_RECEIPT_BANK_RECEIPT1` FOREIGN KEY (`BANK_RECEIPT_NUM`) REFERENCES `bank_receipt` (`BANK_RECEIPT_NUM`),
+  CONSTRAINT `fk_DEBIT_NOTE_BANK_RECEIPT_DEBIT_NOTE1` FOREIGN KEY (`DEBIT_NOTE_NUM`) REFERENCES `debit_note` (`DEBIT_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `debit_note_bank_receipt`
+--
+
+LOCK TABLES `debit_note_bank_receipt` WRITE;
+/*!40000 ALTER TABLE `debit_note_bank_receipt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `debit_note_bank_receipt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `debit_note_cash_receipt`
+--
+
+DROP TABLE IF EXISTS `debit_note_cash_receipt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `debit_note_cash_receipt` (
+  `CASH_RECEIPT_NUM` varchar(10) NOT NULL,
+  `DEBIT_NOTE_NUM` varchar(10) NOT NULL,
+  `DEBIT_NOTE_CASH_RECEIPT_AMOUNT` varchar(45) NOT NULL,
+  PRIMARY KEY (`DEBIT_NOTE_NUM`,`CASH_RECEIPT_NUM`),
+  KEY `fk_DEBIT_NOTE_CASH_RECEIPT_DEBIT_NOTE1_idx` (`DEBIT_NOTE_NUM`),
+  KEY `fk_DEBIT_NOTE_CASH_RECEIPT_CASH_RECEIPT1_idx` (`CASH_RECEIPT_NUM`),
+  CONSTRAINT `fk_DEBIT_NOTE_CASH_RECEIPT_CASH_RECEIPT1` FOREIGN KEY (`CASH_RECEIPT_NUM`) REFERENCES `cash_receipt` (`CASH_RECEIPT_NUM`),
+  CONSTRAINT `fk_DEBIT_NOTE_CASH_RECEIPT_DEBIT_NOTE1` FOREIGN KEY (`DEBIT_NOTE_NUM`) REFERENCES `debit_note` (`DEBIT_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `debit_note_cash_receipt`
+--
+
+LOCK TABLES `debit_note_cash_receipt` WRITE;
+/*!40000 ALTER TABLE `debit_note_cash_receipt` DISABLE KEYS */;
+/*!40000 ALTER TABLE `debit_note_cash_receipt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `debit_note_credit_note`
+--
+
+DROP TABLE IF EXISTS `debit_note_credit_note`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `debit_note_credit_note` (
+  `CREDIT_NOTE_NUM` varchar(10) NOT NULL,
+  `DEBIT_NOTE_NUM` varchar(10) NOT NULL,
+  `DEBIT_NOTE_CREDIT_NOTE_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`DEBIT_NOTE_NUM`,`CREDIT_NOTE_NUM`),
+  KEY `fk_DEBIT_NOTE_CREDIT_NOTE_DEBIT_NOTE1_idx` (`DEBIT_NOTE_NUM`),
+  KEY `fk_DEBIT_NOTE_CREDIT_NOTE_CREDIT_NOTE1_idx` (`CREDIT_NOTE_NUM`),
+  CONSTRAINT `fk_DEBIT_NOTE_CREDIT_NOTE_CREDIT_NOTE1` FOREIGN KEY (`CREDIT_NOTE_NUM`) REFERENCES `credit_note` (`CREDIT_NOTE_NUM`),
+  CONSTRAINT `fk_DEBIT_NOTE_CREDIT_NOTE_DEBIT_NOTE1` FOREIGN KEY (`DEBIT_NOTE_NUM`) REFERENCES `debit_note` (`DEBIT_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `debit_note_credit_note`
+--
+
+LOCK TABLES `debit_note_credit_note` WRITE;
+/*!40000 ALTER TABLE `debit_note_credit_note` DISABLE KEYS */;
+INSERT INTO `debit_note_credit_note` VALUES ('CN-1','DN-1',550.00);
+/*!40000 ALTER TABLE `debit_note_credit_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -347,7 +432,7 @@ CREATE TABLE `debit_noteline` (
 
 LOCK TABLES `debit_noteline` WRITE;
 /*!40000 ALTER TABLE `debit_noteline` DISABLE KEYS */;
-INSERT INTO `debit_noteline` (`DEBIT_NOTE_NUM`, `DEBIT_NOTELINE_LINENUMBER`, `DEBIT_NOTELINE_STOCK_NUM`, `DEBIT_NOTELINE_STOCK_DESC`, `DEBIT_NOTELINE_STOCK_PRICE`, `DEBIT_NOTELINE_STOCK_QTY`, `DEBIT_NOTELINE_DISCOUNT`) VALUES ('DN-1',1,NULL,'OVERALL UNDERCHARGED DUE TO PROBLEMS',550.00,1,0.00);
+INSERT INTO `debit_noteline` (`DEBIT_NOTE_NUM`, `DEBIT_NOTELINE_LINENUMBER`, `DEBIT_NOTELINE_STOCK_NUM`, `DEBIT_NOTELINE_STOCK_DESC`, `DEBIT_NOTELINE_STOCK_PRICE`, `DEBIT_NOTELINE_STOCK_QTY`, `DEBIT_NOTELINE_DISCOUNT`) VALUES ('DN-1',1,NULL,'OVERALL UNDERCHARGED DUE TO PROBLEMS',550.00,1,0.00),('DN-2',1,NULL,'TEST',5000.00,1,0.00);
 /*!40000 ALTER TABLE `debit_noteline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -560,7 +645,7 @@ DROP TABLE IF EXISTS `purchase_credit_note`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purchase_credit_note` (
-  `PURCHASE_CREDIT_NOTE_NUM` varchar(10) NOT NULL,
+  `PURCHASE_CREDIT_NOTE_NUM` varchar(50) NOT NULL,
   `PURCHASE_CREDIT_NOTE_DATE` date NOT NULL,
   `PURCHASE_CREDIT_NOTE_DESC` varchar(255) DEFAULT NULL,
   `CREDITOR_NUM` varchar(10) NOT NULL,
@@ -579,7 +664,7 @@ CREATE TABLE `purchase_credit_note` (
 
 LOCK TABLES `purchase_credit_note` WRITE;
 /*!40000 ALTER TABLE `purchase_credit_note` DISABLE KEYS */;
-INSERT INTO `purchase_credit_note` VALUES ('PCN-1','2020-01-28','CN FROM MARS PAINT FOR BEING JACKASS!','CRED-1',610);
+INSERT INTO `purchase_credit_note` VALUES ('PCN-2','2020-01-28','CN FROM MARS PAINT FOR BEING JACKASS!1','CRED-1',610);
 /*!40000 ALTER TABLE `purchase_credit_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -591,7 +676,7 @@ DROP TABLE IF EXISTS `purchase_credit_noteline`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purchase_credit_noteline` (
-  `PURCHASE_CREDIT_NOTE_NUM` varchar(10) NOT NULL,
+  `PURCHASE_CREDIT_NOTE_NUM` varchar(50) NOT NULL,
   `PURCHASE_CREDIT_NOTELINE_LINENUMBER` int(11) NOT NULL,
   `PURCHASE_CREDIT_NOTELINE_STOCK_NUM` varchar(50) DEFAULT NULL,
   `PURCHASE_CREDIT_NOTELINE_STOCK_DESC` varchar(50) NOT NULL,
@@ -611,7 +696,7 @@ CREATE TABLE `purchase_credit_noteline` (
 
 LOCK TABLES `purchase_credit_noteline` WRITE;
 /*!40000 ALTER TABLE `purchase_credit_noteline` DISABLE KEYS */;
-INSERT INTO `purchase_credit_noteline` (`PURCHASE_CREDIT_NOTE_NUM`, `PURCHASE_CREDIT_NOTELINE_LINENUMBER`, `PURCHASE_CREDIT_NOTELINE_STOCK_NUM`, `PURCHASE_CREDIT_NOTELINE_STOCK_DESC`, `PURCHASE_CREDIT_NOTELINE_STOCK_PRICE`, `PURCHASE_CREDIT_NOTELINE_STOCK_QTY`, `PURCHASE_CREDIT_NOTELINE_DISCOUNT`) VALUES ('PCN-1',1,NULL,'BIG CN',300.00,1,0.00);
+INSERT INTO `purchase_credit_noteline` (`PURCHASE_CREDIT_NOTE_NUM`, `PURCHASE_CREDIT_NOTELINE_LINENUMBER`, `PURCHASE_CREDIT_NOTELINE_STOCK_NUM`, `PURCHASE_CREDIT_NOTELINE_STOCK_DESC`, `PURCHASE_CREDIT_NOTELINE_STOCK_PRICE`, `PURCHASE_CREDIT_NOTELINE_STOCK_QTY`, `PURCHASE_CREDIT_NOTELINE_DISCOUNT`) VALUES ('PCN-2',1,NULL,'BIG CN',300.00,1,0.00);
 /*!40000 ALTER TABLE `purchase_credit_noteline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -623,7 +708,7 @@ DROP TABLE IF EXISTS `purchase_debit_note`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purchase_debit_note` (
-  `PURCHASE_DEBIT_NOTE_NUM` varchar(10) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_NUM` varchar(50) NOT NULL,
   `PURCHASE_DEBIT_NOTE_DATE` date NOT NULL,
   `PURCHASE_DEBIT_NOTE_DESC` varchar(255) DEFAULT NULL,
   `CREDITOR_NUM` varchar(10) NOT NULL,
@@ -642,8 +727,93 @@ CREATE TABLE `purchase_debit_note` (
 
 LOCK TABLES `purchase_debit_note` WRITE;
 /*!40000 ALTER TABLE `purchase_debit_note` DISABLE KEYS */;
-INSERT INTO `purchase_debit_note` VALUES ('PDN-1','2020-02-04','PURCHASE ADD ON KAO','CRED-1',610);
+INSERT INTO `purchase_debit_note` VALUES ('MARS-DN-124','2020-03-03',NULL,'CRED-1',615);
 /*!40000 ALTER TABLE `purchase_debit_note` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_debit_note_bank_payment`
+--
+
+DROP TABLE IF EXISTS `purchase_debit_note_bank_payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_debit_note_bank_payment` (
+  `BANK_PAYMENT_NUM` varchar(10) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_BANK_PAYMENT_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`BANK_PAYMENT_NUM`,`PURCHASE_DEBIT_NOTE_NUM`),
+  KEY `fk_PURCHASE_DEBIT_NOTE_BANK_PAYMENT_BANK_PAYMENT1_idx` (`BANK_PAYMENT_NUM`),
+  KEY `fk_PURCHASE_DEBIT_NOTE_BANK_PAYMENT_PURCHASE_DEBIT_NOTE1_idx` (`PURCHASE_DEBIT_NOTE_NUM`),
+  CONSTRAINT `fk_PURCHASE_DEBIT_NOTE_BANK_PAYMENT_BANK_PAYMENT1` FOREIGN KEY (`BANK_PAYMENT_NUM`) REFERENCES `bank_payment` (`BANK_PAYMENT_NUM`),
+  CONSTRAINT `fk_PURCHASE_DEBIT_NOTE_BANK_PAYMENT_PURCHASE_DEBIT_NOTE1` FOREIGN KEY (`PURCHASE_DEBIT_NOTE_NUM`) REFERENCES `purchase_debit_note` (`PURCHASE_DEBIT_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_debit_note_bank_payment`
+--
+
+LOCK TABLES `purchase_debit_note_bank_payment` WRITE;
+/*!40000 ALTER TABLE `purchase_debit_note_bank_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_debit_note_bank_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_debit_note_cash_payment`
+--
+
+DROP TABLE IF EXISTS `purchase_debit_note_cash_payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_debit_note_cash_payment` (
+  `CASH_PAYMENT_NUM` varchar(10) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_CASH_PAYMENT_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`CASH_PAYMENT_NUM`,`PURCHASE_DEBIT_NOTE_NUM`),
+  KEY `fk_PURCHASE_DEBIT_NOTE_CASH_PAYMENT_CASH_PAYMENT1_idx` (`CASH_PAYMENT_NUM`),
+  KEY `fk_PURCHASE_DEBIT_NOTE_CASH_PAYMENT_PURCHASE_DEBIT_NOTE1_idx` (`PURCHASE_DEBIT_NOTE_NUM`),
+  CONSTRAINT `fk_PURCHASE_DEBIT_NOTE_CASH_PAYMENT_CASH_PAYMENT1` FOREIGN KEY (`CASH_PAYMENT_NUM`) REFERENCES `cash_payment` (`CASH_PAYMENT_NUM`),
+  CONSTRAINT `fk_PURCHASE_DEBIT_NOTE_CASH_PAYMENT_PURCHASE_DEBIT_NOTE1` FOREIGN KEY (`PURCHASE_DEBIT_NOTE_NUM`) REFERENCES `purchase_debit_note` (`PURCHASE_DEBIT_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_debit_note_cash_payment`
+--
+
+LOCK TABLES `purchase_debit_note_cash_payment` WRITE;
+/*!40000 ALTER TABLE `purchase_debit_note_cash_payment` DISABLE KEYS */;
+INSERT INTO `purchase_debit_note_cash_payment` VALUES ('CP-3','MARS-DN-124',300.00);
+/*!40000 ALTER TABLE `purchase_debit_note_cash_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_debit_note_purchase_credit_note`
+--
+
+DROP TABLE IF EXISTS `purchase_debit_note_purchase_credit_note`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_debit_note_purchase_credit_note` (
+  `PURCHASE_CREDIT_NOTE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`PURCHASE_CREDIT_NOTE_NUM`,`PURCHASE_DEBIT_NOTE_NUM`),
+  KEY `fk_PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_PURCHASE_CREDIT_idx` (`PURCHASE_CREDIT_NOTE_NUM`),
+  KEY `fk_PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_PURCHASE_DEBIT__idx` (`PURCHASE_DEBIT_NOTE_NUM`),
+  CONSTRAINT `fk_PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_PURCHASE_CREDIT_N1` FOREIGN KEY (`PURCHASE_CREDIT_NOTE_NUM`) REFERENCES `purchase_credit_note` (`PURCHASE_CREDIT_NOTE_NUM`),
+  CONSTRAINT `fk_PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_PURCHASE_DEBIT_NO1` FOREIGN KEY (`PURCHASE_DEBIT_NOTE_NUM`) REFERENCES `purchase_debit_note` (`PURCHASE_DEBIT_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_debit_note_purchase_credit_note`
+--
+
+LOCK TABLES `purchase_debit_note_purchase_credit_note` WRITE;
+/*!40000 ALTER TABLE `purchase_debit_note_purchase_credit_note` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_debit_note_purchase_credit_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -654,7 +824,7 @@ DROP TABLE IF EXISTS `purchase_debit_noteline`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `purchase_debit_noteline` (
-  `PURCHASE_DEBIT_NOTE_NUM` varchar(10) NOT NULL,
+  `PURCHASE_DEBIT_NOTE_NUM` varchar(50) NOT NULL,
   `PURCHASE_DEBIT_NOTELINE_LINENUMBER` int(11) NOT NULL,
   `PURCHASE_DEBIT_NOTELINE_STOCK_NUM` varchar(50) DEFAULT NULL,
   `PURCHASE_DEBIT_NOTELINE_STOCK_DESC` varchar(50) NOT NULL,
@@ -674,7 +844,7 @@ CREATE TABLE `purchase_debit_noteline` (
 
 LOCK TABLES `purchase_debit_noteline` WRITE;
 /*!40000 ALTER TABLE `purchase_debit_noteline` DISABLE KEYS */;
-INSERT INTO `purchase_debit_noteline` (`PURCHASE_DEBIT_NOTE_NUM`, `PURCHASE_DEBIT_NOTELINE_LINENUMBER`, `PURCHASE_DEBIT_NOTELINE_STOCK_NUM`, `PURCHASE_DEBIT_NOTELINE_STOCK_DESC`, `PURCHASE_DEBIT_NOTELINE_STOCK_PRICE`, `PURCHASE_DEBIT_NOTELINE_STOCK_QTY`, `PURCHASE_DEBIT_NOTELINE_DISCOUNT`) VALUES ('PDN-1',1,'FSKI-1','EXORA FRONT SKIRT',35.00,1,0.00);
+INSERT INTO `purchase_debit_noteline` (`PURCHASE_DEBIT_NOTE_NUM`, `PURCHASE_DEBIT_NOTELINE_LINENUMBER`, `PURCHASE_DEBIT_NOTELINE_STOCK_NUM`, `PURCHASE_DEBIT_NOTELINE_STOCK_DESC`, `PURCHASE_DEBIT_NOTELINE_STOCK_PRICE`, `PURCHASE_DEBIT_NOTELINE_STOCK_QTY`, `PURCHASE_DEBIT_NOTELINE_DISCOUNT`) VALUES ('MARS-DN-124',1,'BUM-1','EXORA BUMPER',55.00,20,0.00);
 /*!40000 ALTER TABLE `purchase_debit_noteline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -705,8 +875,94 @@ CREATE TABLE `purchase_invoice` (
 
 LOCK TABLES `purchase_invoice` WRITE;
 /*!40000 ALTER TABLE `purchase_invoice` DISABLE KEYS */;
-INSERT INTO `purchase_invoice` VALUES ('INV-043511','2019-12-03','ADS1','CRED-1',610),('INV-6571','2019-12-04',NULL,'CRED-2',610);
+INSERT INTO `purchase_invoice` VALUES ('INV-043511','2019-12-03','ADS1','CRED-1',610),('INV-6571','2019-12-04',NULL,'CRED-2',610),('ROT-02','2020-03-03',NULL,'CRED-2',610);
 /*!40000 ALTER TABLE `purchase_invoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_invoice_bank_payment`
+--
+
+DROP TABLE IF EXISTS `purchase_invoice_bank_payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_invoice_bank_payment` (
+  `BANK_PAYMENT_NUM` varchar(10) NOT NULL,
+  `PURCHASE_INVOICE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_INVOICE_BANK_PAYMENT_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`BANK_PAYMENT_NUM`,`PURCHASE_INVOICE_NUM`),
+  KEY `fk_PURCHASE_INVOICE_BANK_PAYMENT_BANK_PAYMENT1_idx` (`BANK_PAYMENT_NUM`),
+  KEY `fk_PURCHASE_INVOICE_BANK_PAYMENT_PURCHASE_INVOICE1_idx` (`PURCHASE_INVOICE_NUM`),
+  CONSTRAINT `fk_PURCHASE_INVOICE_BANK_PAYMENT_BANK_PAYMENT1` FOREIGN KEY (`BANK_PAYMENT_NUM`) REFERENCES `bank_payment` (`BANK_PAYMENT_NUM`),
+  CONSTRAINT `fk_PURCHASE_INVOICE_BANK_PAYMENT_PURCHASE_INVOICE1` FOREIGN KEY (`PURCHASE_INVOICE_NUM`) REFERENCES `purchase_invoice` (`PURCHASE_INVOICE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_invoice_bank_payment`
+--
+
+LOCK TABLES `purchase_invoice_bank_payment` WRITE;
+/*!40000 ALTER TABLE `purchase_invoice_bank_payment` DISABLE KEYS */;
+INSERT INTO `purchase_invoice_bank_payment` VALUES ('BP-2','INV-043511',200.00);
+/*!40000 ALTER TABLE `purchase_invoice_bank_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_invoice_cash_payment`
+--
+
+DROP TABLE IF EXISTS `purchase_invoice_cash_payment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_invoice_cash_payment` (
+  `CASH_PAYMENT_NUM` varchar(10) NOT NULL,
+  `PURCHASE_INVOICE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_INVOICE_CASH_PAYMENT_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`CASH_PAYMENT_NUM`,`PURCHASE_INVOICE_NUM`),
+  KEY `fk_PURCHASE_INVOICE_CASH_PAYMENT_CASH_PAYMENT1_idx` (`CASH_PAYMENT_NUM`),
+  KEY `fk_PURCHASE_INVOICE_CASH_PAYMENT_PURCHASE_INVOICE1_idx` (`PURCHASE_INVOICE_NUM`),
+  CONSTRAINT `fk_PURCHASE_INVOICE_CASH_PAYMENT_CASH_PAYMENT1` FOREIGN KEY (`CASH_PAYMENT_NUM`) REFERENCES `cash_payment` (`CASH_PAYMENT_NUM`),
+  CONSTRAINT `fk_PURCHASE_INVOICE_CASH_PAYMENT_PURCHASE_INVOICE1` FOREIGN KEY (`PURCHASE_INVOICE_NUM`) REFERENCES `purchase_invoice` (`PURCHASE_INVOICE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_invoice_cash_payment`
+--
+
+LOCK TABLES `purchase_invoice_cash_payment` WRITE;
+/*!40000 ALTER TABLE `purchase_invoice_cash_payment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_invoice_cash_payment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_invoice_purchase_credit_note`
+--
+
+DROP TABLE IF EXISTS `purchase_invoice_purchase_credit_note`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_invoice_purchase_credit_note` (
+  `PURCHASE_CREDIT_NOTE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_INVOICE_NUM` varchar(50) NOT NULL,
+  `PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`PURCHASE_INVOICE_NUM`,`PURCHASE_CREDIT_NOTE_NUM`),
+  KEY `fk_PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_PURCHASE_CREDIT_NO_idx` (`PURCHASE_CREDIT_NOTE_NUM`),
+  KEY `fk_PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_PURCHASE_INVOICE1_idx` (`PURCHASE_INVOICE_NUM`),
+  CONSTRAINT `fk_PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_PURCHASE_CREDIT_NOTE1` FOREIGN KEY (`PURCHASE_CREDIT_NOTE_NUM`) REFERENCES `purchase_credit_note` (`PURCHASE_CREDIT_NOTE_NUM`),
+  CONSTRAINT `fk_PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_PURCHASE_INVOICE1` FOREIGN KEY (`PURCHASE_INVOICE_NUM`) REFERENCES `purchase_invoice` (`PURCHASE_INVOICE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_invoice_purchase_credit_note`
+--
+
+LOCK TABLES `purchase_invoice_purchase_credit_note` WRITE;
+/*!40000 ALTER TABLE `purchase_invoice_purchase_credit_note` DISABLE KEYS */;
+INSERT INTO `purchase_invoice_purchase_credit_note` VALUES ('PCN-2','INV-043511',300.00);
+/*!40000 ALTER TABLE `purchase_invoice_purchase_credit_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -737,8 +993,63 @@ CREATE TABLE `purchase_invoiceline` (
 
 LOCK TABLES `purchase_invoiceline` WRITE;
 /*!40000 ALTER TABLE `purchase_invoiceline` DISABLE KEYS */;
-INSERT INTO `purchase_invoiceline` (`PURCHASE_INVOICE_NUM`, `PURCHASE_INVOICELINE_LINENUMBER`, `PURCHASE_INVOICELINE_STOCK_NUM`, `PURCHASE_INVOICELINE_STOCK_DESC`, `PURCHASE_INVOICELINE_STOCK_PRICE`, `PURCHASE_INVOICELINE_STOCK_QTY`, `PURCHASE_INVOICELINE_DISCOUNT`) VALUES ('INV-043511',1,NULL,'PAINT',500.00,1,0.00),('INV-043511',2,NULL,'THINNER',350.00,2,0.00),('INV-6571',1,NULL,'COMPRESSOR SERVICE',1015.00,1,0.00);
+INSERT INTO `purchase_invoiceline` (`PURCHASE_INVOICE_NUM`, `PURCHASE_INVOICELINE_LINENUMBER`, `PURCHASE_INVOICELINE_STOCK_NUM`, `PURCHASE_INVOICELINE_STOCK_DESC`, `PURCHASE_INVOICELINE_STOCK_PRICE`, `PURCHASE_INVOICELINE_STOCK_QTY`, `PURCHASE_INVOICELINE_DISCOUNT`) VALUES ('INV-043511',1,NULL,'PAINT',500.00,1,0.00),('INV-043511',2,NULL,'THINNER',350.00,2,0.00),('INV-6571',1,NULL,'COMPRESSOR SERVICE',1015.00,1,0.00),('ROT-02',1,NULL,'MAINTENANCE',1500.00,1,0.00);
 /*!40000 ALTER TABLE `purchase_invoiceline` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_return`
+--
+
+DROP TABLE IF EXISTS `purchase_return`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_return` (
+  `PURCHASE_RETURN_NUM` varchar(10) NOT NULL,
+  `PURCHASE_RETURN_DATE` date NOT NULL,
+  `PURCHASE_RETURN_DESC` varchar(255) DEFAULT NULL,
+  `CREDITOR_NUM` varchar(10) NOT NULL,
+  PRIMARY KEY (`PURCHASE_RETURN_NUM`),
+  KEY `fk_PURCHASE_RETURN_CREDITOR1_idx` (`CREDITOR_NUM`),
+  CONSTRAINT `fk_PURCHASE_RETURN_CREDITOR1` FOREIGN KEY (`CREDITOR_NUM`) REFERENCES `creditor` (`CREDITOR_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_return`
+--
+
+LOCK TABLES `purchase_return` WRITE;
+/*!40000 ALTER TABLE `purchase_return` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_return` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `purchase_returnline`
+--
+
+DROP TABLE IF EXISTS `purchase_returnline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `purchase_returnline` (
+  `PURCHASE_RETURN_NUM` varchar(10) NOT NULL,
+  `PURCHASE_RETURNLINE_LINENUMBER` int(11) NOT NULL,
+  `PURCHASE_RETURNLINE_STOCK_NUM` varchar(50) DEFAULT NULL,
+  `PURCHASE_RETURNLINE_STOCK_DESC` varchar(50) NOT NULL,
+  `PURCHASE_RETURNLINE_STOCK_QTY` int(11) NOT NULL,
+  PRIMARY KEY (`PURCHASE_RETURN_NUM`,`PURCHASE_RETURNLINE_LINENUMBER`),
+  KEY `fk_PURCHASE_RETURNLINE_PURCHASE_RETURN1_idx` (`PURCHASE_RETURN_NUM`),
+  CONSTRAINT `fk_PURCHASE_RETURNLINE_PURCHASE_RETURN1` FOREIGN KEY (`PURCHASE_RETURN_NUM`) REFERENCES `purchase_return` (`PURCHASE_RETURN_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase_returnline`
+--
+
+LOCK TABLES `purchase_returnline` WRITE;
+/*!40000 ALTER TABLE `purchase_returnline` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_returnline` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -768,8 +1079,94 @@ CREATE TABLE `sales_invoice` (
 
 LOCK TABLES `sales_invoice` WRITE;
 /*!40000 ALTER TABLE `sales_invoice` DISABLE KEYS */;
-INSERT INTO `sales_invoice` VALUES ('SIPR-1','2020-01-02',NULL,'DEB-1',500),('SIPR-2','2020-01-03','M','DEB-1',510),('TSP-1','2019-01-31',NULL,'DEB-2',500);
+INSERT INTO `sales_invoice` VALUES ('SIPR-1','2020-01-02',NULL,'DEB-1',500),('SIPR-2','2020-01-03','M','DEB-1',510),('TSP-1','2019-01-31',NULL,'DEB-2',500),('TSP-3','2020-03-10',NULL,'DEB-2',500);
 /*!40000 ALTER TABLE `sales_invoice` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sales_invoice_bank_receipt`
+--
+
+DROP TABLE IF EXISTS `sales_invoice_bank_receipt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sales_invoice_bank_receipt` (
+  `BANK_RECEIPT_NUM` varchar(10) NOT NULL,
+  `SALES_INVOICE_NUM` varchar(10) NOT NULL,
+  `SALES_INVOICE_BANK_RECEIPT_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`SALES_INVOICE_NUM`,`BANK_RECEIPT_NUM`),
+  KEY `fk_SALES_INVOICE_BANK_RECEIPT_BANK_RECEIPT1_idx` (`BANK_RECEIPT_NUM`),
+  KEY `fk_SALES_INVOICE_BANK_RECEIPT_SALES_INVOICE1_idx` (`SALES_INVOICE_NUM`),
+  CONSTRAINT `fk_SALES_INVOICE_BANK_RECEIPT_BANK_RECEIPT1` FOREIGN KEY (`BANK_RECEIPT_NUM`) REFERENCES `bank_receipt` (`BANK_RECEIPT_NUM`),
+  CONSTRAINT `fk_SALES_INVOICE_BANK_RECEIPT_SALES_INVOICE1` FOREIGN KEY (`SALES_INVOICE_NUM`) REFERENCES `sales_invoice` (`SALES_INVOICE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sales_invoice_bank_receipt`
+--
+
+LOCK TABLES `sales_invoice_bank_receipt` WRITE;
+/*!40000 ALTER TABLE `sales_invoice_bank_receipt` DISABLE KEYS */;
+INSERT INTO `sales_invoice_bank_receipt` VALUES ('BR-4','TSP-3',225.00);
+/*!40000 ALTER TABLE `sales_invoice_bank_receipt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sales_invoice_cash_receipt`
+--
+
+DROP TABLE IF EXISTS `sales_invoice_cash_receipt`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sales_invoice_cash_receipt` (
+  `CASH_RECEIPT_NUM` varchar(10) NOT NULL,
+  `SALES_INVOICE_NUM` varchar(10) NOT NULL,
+  `SALES_INVOICE_CASH_RECEIPT_AMOUNT` varchar(45) NOT NULL,
+  PRIMARY KEY (`SALES_INVOICE_NUM`,`CASH_RECEIPT_NUM`),
+  KEY `fk_SALES_INVOICE_CASH_RECEIPT_CASH_RECEIPT1_idx` (`CASH_RECEIPT_NUM`),
+  KEY `fk_SALES_INVOICE_CASH_RECEIPT_SALES_INVOICE1_idx` (`SALES_INVOICE_NUM`),
+  CONSTRAINT `fk_SALES_INVOICE_CASH_RECEIPT_CASH_RECEIPT1` FOREIGN KEY (`CASH_RECEIPT_NUM`) REFERENCES `cash_receipt` (`CASH_RECEIPT_NUM`),
+  CONSTRAINT `fk_SALES_INVOICE_CASH_RECEIPT_SALES_INVOICE1` FOREIGN KEY (`SALES_INVOICE_NUM`) REFERENCES `sales_invoice` (`SALES_INVOICE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sales_invoice_cash_receipt`
+--
+
+LOCK TABLES `sales_invoice_cash_receipt` WRITE;
+/*!40000 ALTER TABLE `sales_invoice_cash_receipt` DISABLE KEYS */;
+INSERT INTO `sales_invoice_cash_receipt` VALUES ('CR-3','TSP-3','275');
+/*!40000 ALTER TABLE `sales_invoice_cash_receipt` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sales_invoice_credit_note`
+--
+
+DROP TABLE IF EXISTS `sales_invoice_credit_note`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sales_invoice_credit_note` (
+  `CREDIT_NOTE_NUM` varchar(10) NOT NULL,
+  `SALES_INVOICE_NUM` varchar(10) NOT NULL,
+  `SALES_INVOICE_CREDIT_NOTE_AMOUNT` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`SALES_INVOICE_NUM`,`CREDIT_NOTE_NUM`),
+  KEY `fk_SALES_INVOICE_CREDIT_NOTE_SALES_INVOICE1_idx` (`SALES_INVOICE_NUM`),
+  KEY `fk_SALES_INVOICE_CREDIT_NOTE_CREDIT_NOTE1_idx` (`CREDIT_NOTE_NUM`),
+  CONSTRAINT `fk_SALES_INVOICE_CREDIT_NOTE_CREDIT_NOTE1` FOREIGN KEY (`CREDIT_NOTE_NUM`) REFERENCES `credit_note` (`CREDIT_NOTE_NUM`),
+  CONSTRAINT `fk_SALES_INVOICE_CREDIT_NOTE_SALES_INVOICE1` FOREIGN KEY (`SALES_INVOICE_NUM`) REFERENCES `sales_invoice` (`SALES_INVOICE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sales_invoice_credit_note`
+--
+
+LOCK TABLES `sales_invoice_credit_note` WRITE;
+/*!40000 ALTER TABLE `sales_invoice_credit_note` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sales_invoice_credit_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -800,7 +1197,7 @@ CREATE TABLE `sales_invoiceline` (
 
 LOCK TABLES `sales_invoiceline` WRITE;
 /*!40000 ALTER TABLE `sales_invoiceline` DISABLE KEYS */;
-INSERT INTO `sales_invoiceline` (`SALES_INVOICE_NUM`, `SALES_INVOICELINE_LINENUMBER`, `SALES_INVOICELINE_STOCK_NUM`, `SALES_INVOICELINE_STOCK_DESC`, `SALES_INVOICELINE_STOCK_PRICE`, `SALES_INVOICELINE_STOCK_QTY`, `SALES_INVOICELINE_DISCOUNT`) VALUES ('SIPR-1',1,'BUM-1','EXORA BUMPER',555.00,5,1.50),('SIPR-1',2,'FSKI-1','EXORA FRONT SKIRT',35.00,5,5.00),('SIPR-1',3,'SPL-1','EXORA SPOILER',25.00,5,0.00),('SIPR-2',1,'FSKI-1','EXORA FRONT SKIRT',1000.00,5,5.00),('SIPR-2',2,'SPL-1','EXORA SPOILER',25.00,5,5.00),('TSP-1',1,'BUM-1','EXORA BUMPER',55.00,5,0.00);
+INSERT INTO `sales_invoiceline` (`SALES_INVOICE_NUM`, `SALES_INVOICELINE_LINENUMBER`, `SALES_INVOICELINE_STOCK_NUM`, `SALES_INVOICELINE_STOCK_DESC`, `SALES_INVOICELINE_STOCK_PRICE`, `SALES_INVOICELINE_STOCK_QTY`, `SALES_INVOICELINE_DISCOUNT`) VALUES ('SIPR-1',1,'BUM-1','EXORA BUMPER ',555.00,5,1.50),('SIPR-1',2,'FSKI-1','EXORA FRONT SKIRT',35.00,5,5.00),('SIPR-1',3,'SPL-1','EXORA SPOILER',25.00,5,0.00),('SIPR-2',1,'FSKI-1','EXORA FRONT SKIRT',1000.00,5,5.00),('SIPR-2',2,'SPL-1','EXORA SPOILER',25.00,5,5.00),('TSP-1',1,'BUM-1','EXORA BUMPER',55.00,5,0.00),('TSP-3',1,NULL,'discount',500.00,1,0.00);
 /*!40000 ALTER TABLE `sales_invoiceline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -862,6 +1259,118 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'accountingapp'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_BANK_PAYMENT` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_BANK_PAYMENT`(IN BANK_PAYMENT_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+DELETE FROM purchase_invoice_bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM;
+DELETE FROM purchase_debit_note_bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM;
+DELETE FROM bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_BANK_RECEIPT` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_BANK_RECEIPT`(IN BANK_RECEIPT_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+DELETE FROM sales_invoice_bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM;
+DELETE FROM debit_note_bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM;
+DELETE FROM bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_CASH_PAYMENT` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_CASH_PAYMENT`(IN CASH_PAYMENT_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+DELETE FROM purchase_invoice_cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM;
+DELETE FROM purchase_debit_note_cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM;
+DELETE FROM cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_CASH_RECEIPT` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_CASH_RECEIPT`(IN CASH_RECEIPT_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+DELETE FROM sales_invoice_cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM;
+DELETE FROM debit_note_cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM;
+DELETE FROM cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `DELETE_CREDIT_NOTE` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -881,6 +1390,8 @@ RESIGNAL;
 END;
 START TRANSACTION;
 DELETE FROM credit_noteline WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
+DELETE FROM sales_invoice_credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
+DELETE FROM debit_note_credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
 DELETE FROM credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
 COMMIT;
 END ;;
@@ -908,6 +1419,9 @@ RESIGNAL;
 END;
 START TRANSACTION;
 DELETE FROM debit_noteline WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_PARAM;
+DELETE FROM debit_note_cash_receipt WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_PARAM;
+DELETE FROM debit_note_bank_receipt WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_PARAM;
+DELETE FROM debit_note_credit_note WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_PARAM;
 DELETE FROM debit_note WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_PARAM;
 COMMIT;
 END ;;
@@ -989,6 +1503,8 @@ RESIGNAL;
 END;
 START TRANSACTION;
 DELETE FROM purchase_credit_noteline WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
+DELETE FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
+DELETE FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
 DELETE FROM purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
 COMMIT;
 END ;;
@@ -1007,7 +1523,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `DELETE_PURCHASE_DEBIT_NOTE`(IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(10))
+CREATE  PROCEDURE `DELETE_PURCHASE_DEBIT_NOTE`(IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(50))
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
@@ -1016,6 +1532,11 @@ RESIGNAL;
 END;
 START TRANSACTION;
 DELETE FROM purchase_debit_noteline WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_PARAM;
+
+DELETE FROM purchase_debit_note_cash_payment WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_PARAM;
+DELETE FROM purchase_debit_note_bank_payment WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_PARAM;
+DELETE FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_PARAM;
+
 DELETE FROM purchase_debit_note WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_PARAM;
 COMMIT;
 END ;;
@@ -1043,7 +1564,39 @@ RESIGNAL;
 END;
 START TRANSACTION;
 DELETE FROM purchase_invoiceline WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_PARAM;
+
+DELETE FROM purchase_invoice_cash_payment WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_PARAM;
+DELETE FROM purchase_invoice_bank_payment WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_PARAM;
+DELETE FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_PARAM;
+
 DELETE FROM purchase_invoice WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_PURCHASE_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_PURCHASE_RETURN`(IN PURCHASE_RETURN_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+DELETE FROM purchase_returnline WHERE PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_PARAM;
+DELETE FROM purchase_return WHERE PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_PARAM;
 COMMIT;
 END ;;
 DELIMITER ;
@@ -1070,6 +1623,9 @@ RESIGNAL;
 END;
 START TRANSACTION;
 DELETE FROM sales_invoiceline WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_PARAM;
+DELETE FROM sales_invoice_cash_receipt WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_PARAM;
+DELETE FROM sales_invoice_bank_receipt WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_PARAM;
+DELETE FROM sales_invoice_credit_note WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_PARAM;
 DELETE FROM sales_invoice WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_PARAM;
 COMMIT;
 END ;;
@@ -1140,8 +1696,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_BANK_PAYMENT`(IN BANK_PAYMENT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN BANK_PAYMENT_DATE_PARAM DATE, IN BANK_PAYMENT_METHOD_PARAM VARCHAR(45),IN BANK_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_PAYMENT_DESC_PARAM VARCHAR(255),IN BANK_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_PAYMENT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `INSERT_BANK_PAYMENT`(IN BANK_PAYMENT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN BANK_PAYMENT_DATE_PARAM DATE, IN BANK_PAYMENT_METHOD_PARAM VARCHAR(45),IN BANK_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_PAYMENT_DESC_PARAM VARCHAR(255),IN BANK_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_PAYMENT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255),IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
@@ -1149,6 +1710,59 @@ RESIGNAL;
 END;
 START TRANSACTION;
 INSERT INTO bank_payment VALUES(BANK_PAYMENT_NUM_PARAM,BANK_NUM_PARAM,CREDITOR_NUM_PARAM,BANK_PAYMENT_DATE_PARAM,BANK_PAYMENT_METHOD_PARAM,BANK_PAYMENT_TRANSACTION_ID_PARAM,BANK_PAYMENT_DESC_PARAM,BANK_PAYMENT_AMOUNT_PARAM,GL_ACC_NUM_PARAM);
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_invoice_bank_payment VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_debit_note_bank_payment VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -1166,8 +1780,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_BANK_RECEIPT`(IN BANK_RECEIPT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN BANK_RECEIPT_DATE_PARAM DATE, IN BANK_RECEIPT_METHOD_PARAM VARCHAR(45),IN BANK_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_RECEIPT_DESC_PARAM VARCHAR(255),IN BANK_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_RECEIPT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `INSERT_BANK_RECEIPT`(IN BANK_RECEIPT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN BANK_RECEIPT_DATE_PARAM DATE, IN BANK_RECEIPT_METHOD_PARAM VARCHAR(45),IN BANK_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_RECEIPT_DESC_PARAM VARCHAR(255),IN BANK_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_RECEIPT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255),IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
@@ -1175,6 +1794,59 @@ RESIGNAL;
 END;
 START TRANSACTION;
 INSERT INTO bank_receipt VALUES(BANK_RECEIPT_NUM_PARAM,BANK_NUM_PARAM,DEBTOR_NUM_PARAM,BANK_RECEIPT_DATE_PARAM,BANK_RECEIPT_METHOD_PARAM,BANK_RECEIPT_TRANSACTION_ID_PARAM,BANK_RECEIPT_DESC_PARAM,BANK_RECEIPT_AMOUNT_PARAM,GL_ACC_NUM_PARAM);
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT sales_invoice_bank_receipt VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT debit_note_bank_receipt VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -1192,8 +1864,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_CASH_PAYMENT`(IN CASH_PAYMENT_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN CASH_PAYMENT_DATE_PARAM DATE, IN CASH_PAYMENT_METHOD_PARAM VARCHAR(45),IN CASH_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_PAYMENT_DESC_PARAM VARCHAR(255),IN CASH_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_PAYMENT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `INSERT_CASH_PAYMENT`(IN CASH_PAYMENT_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN CASH_PAYMENT_DATE_PARAM DATE, IN CASH_PAYMENT_METHOD_PARAM VARCHAR(45),IN CASH_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_PAYMENT_DESC_PARAM VARCHAR(255),IN CASH_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_PAYMENT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255),IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
@@ -1201,6 +1878,59 @@ RESIGNAL;
 END;
 START TRANSACTION;
 INSERT INTO cash_payment VALUES(CASH_PAYMENT_NUM_PARAM,CREDITOR_NUM_PARAM,CASH_PAYMENT_DATE_PARAM,CASH_PAYMENT_METHOD_PARAM,CASH_PAYMENT_TRANSACTION_ID_PARAM,CASH_PAYMENT_DESC_PARAM,CASH_PAYMENT_AMOUNT_PARAM,GL_ACC_NUM1_PARAM,DEFAULT);
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_invoice_cash_payment VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_debit_note_cash_payment VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -1218,8 +1948,13 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_CASH_RECEIPT`(IN CASH_RECEIPT_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN CASH_RECEIPT_DATE_PARAM DATE, IN CASH_RECEIPT_METHOD_PARAM VARCHAR(45),IN CASH_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_RECEIPT_DESC_PARAM VARCHAR(255),IN CASH_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_RECEIPT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `INSERT_CASH_RECEIPT`(IN CASH_RECEIPT_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN CASH_RECEIPT_DATE_PARAM DATE, IN CASH_RECEIPT_METHOD_PARAM VARCHAR(45),IN CASH_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_RECEIPT_DESC_PARAM VARCHAR(255),IN CASH_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_RECEIPT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255),IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
@@ -1227,6 +1962,59 @@ RESIGNAL;
 END;
 START TRANSACTION;
 INSERT INTO cash_receipt VALUES(CASH_RECEIPT_NUM_PARAM,DEBTOR_NUM_PARAM,CASH_RECEIPT_DATE_PARAM,CASH_RECEIPT_METHOD_PARAM,CASH_RECEIPT_TRANSACTION_ID_PARAM,CASH_RECEIPT_DESC_PARAM,CASH_RECEIPT_AMOUNT_PARAM,GL_ACC_NUM1_PARAM,DEFAULT);
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT sales_invoice_cash_receipt VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT debit_note_cash_receipt VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -1270,9 +2058,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_CREDIT_NOTE`(IN DEBTOR_NUM_PARAM VARCHAR(10), IN DEBTOR_NAME_PARAM VARCHAR(255),IN DEBTOR_ADDRESS_PARAM VARCHAR(255), IN CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN CREDIT_NOTE_DATE_PARAM DATE, IN CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, IN CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN CREDIT_NOTELINE_PARAM VARCHAR(255))
+CREATE  PROCEDURE `INSERT_CREDIT_NOTE`(IN DEBTOR_NUM_PARAM VARCHAR(10), IN DEBTOR_NAME_PARAM VARCHAR(255),IN DEBTOR_ADDRESS_PARAM VARCHAR(255), IN CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN CREDIT_NOTE_DATE_PARAM DATE, IN CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, IN CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN CREDIT_NOTELINE_PARAM VARCHAR(255), IN OFFSET_ONE_PARAM VARCHAR(255),IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
 DECLARE POS INT DEFAULT 1;
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
 DECLARE LENGTH INT DEFAULT 0;
 DECLARE DONE VARCHAR(20) DEFAULT 'NO';
 
@@ -1309,10 +2099,63 @@ PREPARE stmt FROM @STRNG;
 EXECUTE stmt;
 DEALLOCATE PREPARE stmt;
 
+
+
 END;
 END IF;
 
 
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT sales_invoice_credit_note VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT debit_note_credit_note VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
 
 COMMIT;
 END ;;
@@ -1540,9 +2383,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_PURCHASE_CREDIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTE_DATE_PARAM DATE, IN PURCHASE_CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, IN PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTELINE_PARAM VARCHAR(255))
+CREATE  PROCEDURE `INSERT_PURCHASE_CREDIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTE_DATE_PARAM DATE, IN PURCHASE_CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, IN PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTELINE_PARAM VARCHAR(255), IN OFFSET_ONE_PARAM VARCHAR(255),IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
 DECLARE POS INT DEFAULT 1;
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
 DECLARE LENGTH INT DEFAULT 0;
 DECLARE DONE VARCHAR(20) DEFAULT 'NO';
 
@@ -1582,7 +2427,57 @@ DEALLOCATE PREPARE stmt;
 END;
 END IF;
 
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_invoice_purchase_credit_note VALUES ';
 
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_debit_note_purchase_credit_note VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
 
 COMMIT;
 END ;;
@@ -1601,7 +2496,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `INSERT_PURCHASE_DEBIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(10), IN PURCHASE_DEBIT_NOTE_DATE_PARAM DATE, IN PURCHASE_DEBIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, IN PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_DEBIT_NOTELINE_PARAM VARCHAR(255))
+CREATE  PROCEDURE `INSERT_PURCHASE_DEBIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(50), IN PURCHASE_DEBIT_NOTE_DATE_PARAM DATE, IN PURCHASE_DEBIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, IN PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM VARCHAR(50), IN PURCHASE_DEBIT_NOTELINE_PARAM VARCHAR(255))
 BEGIN
 DECLARE POS INT DEFAULT 1;
 DECLARE LENGTH INT DEFAULT 0;
@@ -1703,6 +2598,67 @@ DEALLOCATE PREPARE stmt;
 
 END;
 END IF;
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `INSERT_PURCHASE_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `INSERT_PURCHASE_RETURN`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_RETURN_NUM_PARAM VARCHAR(10), IN PURCHASE_RETURN_DATE_PARAM DATE, IN PURCHASE_RETURN_DESC_PARAM VARCHAR(255), IN PURCHASE_RETURN_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_RETURNLINE_PARAM VARCHAR(255))
+BEGIN
+DECLARE POS INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+
+START TRANSACTION;
+
+INSERT purchase_return VALUES(PURCHASE_RETURN_NUM_PARAM,PURCHASE_RETURN_DATE_PARAM,PURCHASE_RETURN_DESC_PARAM,CREDITOR_NUM_PARAM);
+
+IF PURCHASE_RETURNLINE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_returnline VALUES ';
+
+purchasereturnline_loop:LOOP
+IF REGEXP_INSTR(PURCHASE_RETURNLINE_PARAM,'=',POS)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',PURCHASE_RETURN_NUM_PARAM,'",',SUBSTRING(PURCHASE_RETURNLINE_PARAM,POS),')') INTO @STRNG;
+LEAVE purchasereturnline_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(PURCHASE_RETURNLINE_PARAM,'=',POS) - POS) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',PURCHASE_RETURN_NUM_PARAM,'",',SUBSTRING(PURCHASE_RETURNLINE_PARAM,POS,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(PURCHASE_RETURNLINE_PARAM,'=',POS)+1) INTO POS;
+END;
+END IF;
+END LOOP purchasereturnline_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+
 
 COMMIT;
 END ;;
@@ -1935,6 +2891,11 @@ RESIGNAL;
 END;
 START TRANSACTION;
 SELECT *,BANK_PAYMENT_NUM AS BANK_PAYMENT_NUM_OLD FROM bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM;
+
+SELECT PURCHASE_INVOICE_NUM,PURCHASE_INVOICE_BANK_PAYMENT_AMOUNT FROM purchase_invoice_bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM;
+
+SELECT PURCHASE_DEBIT_NOTE_NUM,PURCHASE_DEBIT_NOTE_BANK_PAYMENT_AMOUNT FROM purchase_debit_note_bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -1986,7 +2947,13 @@ ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
+
 SELECT *,BANK_RECEIPT_NUM AS BANK_RECEIPT_NUM_OLD FROM bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM;
+
+SELECT SALES_INVOICE_NUM,SALES_INVOICE_BANK_RECEIPT_AMOUNT FROM sales_invoice_bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM;
+
+SELECT DEBIT_NOTE_NUM,DEBIT_NOTE_BANK_RECEIPT_AMOUNT FROM debit_note_bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2039,6 +3006,11 @@ RESIGNAL;
 END;
 START TRANSACTION;
 SELECT *,CASH_PAYMENT_NUM AS CASH_PAYMENT_NUM_OLD FROM cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM;
+
+SELECT PURCHASE_INVOICE_NUM,PURCHASE_INVOICE_CASH_PAYMENT_AMOUNT FROM purchase_invoice_cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM;
+
+SELECT PURCHASE_DEBIT_NOTE_NUM,PURCHASE_DEBIT_NOTE_CASH_PAYMENT_AMOUNT FROM purchase_debit_note_cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2090,7 +3062,13 @@ ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
+
 SELECT *,CASH_RECEIPT_NUM AS CASH_RECEIPT_NUM_OLD FROM cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM;
+
+SELECT SALES_INVOICE_NUM,SALES_INVOICE_CASH_RECEIPT_AMOUNT FROM sales_invoice_cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM;
+
+SELECT DEBIT_NOTE_NUM,DEBIT_NOTE_CASH_RECEIPT_AMOUNT FROM debit_note_cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2150,6 +3128,73 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_CREDITOR_OUTSTANDING` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_CREDITOR_OUTSTANDING`(IN CREDITOR_NUM_PARAM VARCHAR(10),IN DOC_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+
+SELECT PURCHASE_INVOICE_NUM AS NUM,  (SELECT CREDITOR_NAME FROM creditor WHERE creditor.CREDITOR_NUM=t1.CREDITOR_NUM) AS NAME,
+'PURCHASE INVOICE' AS TYPE, PURCHASE_INVOICE_DATE AS DATE, SUM(PURCHASE_INVOICELINE_SUBTOTAL) AS ORIGINAL_AMOUNT,
+ROUND((SELECT SUM(PURCHASE_INVOICELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(PURCHASE_INVOICE_CASH_PAYMENT_AMOUNT) FROM purchase_invoice_cash_payment WHERE PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM),0)
++IFNULL((SELECT PURCHASE_INVOICE_CASH_PAYMENT_AMOUNT FROM purchase_invoice_cash_payment WHERE CASH_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_INVOICE_BANK_PAYMENT_AMOUNT) FROM purchase_invoice_bank_payment WHERE PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM),0)
++IFNULL((SELECT PURCHASE_INVOICE_BANK_PAYMENT_AMOUNT FROM purchase_invoice_bank_payment WHERE BANK_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_AMOUNT) FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM),0)
++IFNULL((SELECT PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_AMOUNT FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=DOC_NUM_PARAM AND PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM),0)
+),2) AS OUTSTANDING 
+from purchase_invoice as t1 LEFT JOIN purchase_invoiceline USING (PURCHASE_INVOICE_NUM) WHERE  t1.CREDITOR_NUM=CREDITOR_NUM_PARAM AND 
+(SELECT SUM(PURCHASE_INVOICELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(PURCHASE_INVOICE_CASH_PAYMENT_AMOUNT) FROM purchase_invoice_cash_payment WHERE PURCHASE_INVOICE_NUM=t2.PURCHASE_INVOICE_NUM),0)
++IFNULL((SELECT PURCHASE_INVOICE_CASH_PAYMENT_AMOUNT FROM purchase_invoice_cash_payment WHERE CASH_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_INVOICE_NUM=t2.PURCHASE_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_INVOICE_BANK_PAYMENT_AMOUNT) FROM purchase_invoice_bank_payment WHERE PURCHASE_INVOICE_NUM=t2.PURCHASE_INVOICE_NUM),0)
++IFNULL((SELECT PURCHASE_INVOICE_BANK_PAYMENT_AMOUNT FROM purchase_invoice_bank_payment WHERE BANK_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_INVOICE_NUM=t2.PURCHASE_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_AMOUNT) FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_INVOICE_NUM=t2.PURCHASE_INVOICE_NUM),0)
++IFNULL((SELECT PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_AMOUNT FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=DOC_NUM_PARAM AND PURCHASE_INVOICE_NUM=t2.PURCHASE_INVOICE_NUM),0)
+from purchase_invoice as t2 LEFT JOIN purchase_invoiceline USING (PURCHASE_INVOICE_NUM) WHERE t2.PURCHASE_INVOICE_NUM=t1.PURCHASE_INVOICE_NUM)>0
+GROUP BY PURCHASE_INVOICE_NUM UNION ALL 
+(SELECT PURCHASE_DEBIT_NOTE_NUM, (SELECT CREDITOR_NAME FROM creditor WHERE creditor.CREDITOR_NUM=t3.CREDITOR_NUM) AS NAME,
+'PURCHASE DEBIT NOTE' AS TYPE,PURCHASE_DEBIT_NOTE_DATE, SUM(PURCHASE_DEBIT_NOTELINE_SUBTOTAL) AS ORIGINAL_AMOUNT,
+ROUND((SELECT SUM(PURCHASE_DEBIT_NOTELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_CASH_PAYMENT_AMOUNT) FROM purchase_debit_note_cash_payment WHERE PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM),0)
++IFNULL((SELECT PURCHASE_DEBIT_NOTE_CASH_PAYMENT_AMOUNT FROM purchase_debit_note_cash_payment WHERE CASH_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_BANK_PAYMENT_AMOUNT) FROM purchase_debit_note_bank_payment WHERE PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM),0)
++IFNULL((SELECT PURCHASE_DEBIT_NOTE_BANK_PAYMENT_AMOUNT FROM purchase_debit_note_bank_payment WHERE BANK_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_AMOUNT) FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM),0)
++IFNULL((SELECT PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_AMOUNT FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=DOC_NUM_PARAM AND PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM),0)
+),2) AS OUTSTANDING
+from purchase_debit_note as t3 LEFT JOIN purchase_debit_noteline using (PURCHASE_DEBIT_NOTE_NUM) WHERE t3.CREDITOR_NUM=CREDITOR_NUM_PARAM AND 
+(SELECT SUM(PURCHASE_DEBIT_NOTELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_CASH_PAYMENT_AMOUNT) FROM purchase_debit_note_cash_payment WHERE PURCHASE_DEBIT_NOTE_NUM=t4.PURCHASE_DEBIT_NOTE_NUM),0)
++IFNULL((SELECT PURCHASE_DEBIT_NOTE_CASH_PAYMENT_AMOUNT FROM purchase_debit_note_cash_payment WHERE CASH_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_DEBIT_NOTE_NUM=t4.PURCHASE_DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_BANK_PAYMENT_AMOUNT) FROM purchase_debit_note_bank_payment WHERE PURCHASE_DEBIT_NOTE_NUM=t4.PURCHASE_DEBIT_NOTE_NUM),0)
++IFNULL((SELECT PURCHASE_DEBIT_NOTE_BANK_PAYMENT_AMOUNT FROM purchase_debit_note_bank_payment WHERE BANK_PAYMENT_NUM=DOC_NUM_PARAM AND PURCHASE_DEBIT_NOTE_NUM=t4.PURCHASE_DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_AMOUNT) FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_DEBIT_NOTE_NUM=t4.PURCHASE_DEBIT_NOTE_NUM),0)
++IFNULL((SELECT PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_AMOUNT FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=DOC_NUM_PARAM AND PURCHASE_DEBIT_NOTE_NUM=t4.PURCHASE_DEBIT_NOTE_NUM),0)
+from purchase_debit_note as t4 LEFT JOIN purchase_debit_noteline using (PURCHASE_DEBIT_NOTE_NUM) WHERE t4.PURCHASE_DEBIT_NOTE_NUM=t3.PURCHASE_DEBIT_NOTE_NUM)>0 
+GROUP BY PURCHASE_DEBIT_NOTE_NUM) ORDER BY DATE;
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `SELECT_CREDIT_NOTE` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2170,6 +3215,11 @@ END;
 START TRANSACTION;
 SELECT DEBTOR_NUM, DEBTOR_NAME, DEBTOR_ADDRESS, CREDIT_NOTE_NUM,CREDIT_NOTE_DATE,CREDIT_NOTE_DESC, credit_note.GL_ACC_NUM, CREDIT_NOTE_NUM AS CREDIT_NOTE_NUM_OLD FROM debtor JOIN credit_note USING (DEBTOR_NUM) WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
 SELECT CREDIT_NOTELINE_LINENUMBER,CREDIT_NOTELINE_STOCK_NUM,CREDIT_NOTELINE_STOCK_DESC,CREDIT_NOTELINE_STOCK_PRICE,CREDIT_NOTELINE_STOCK_QTY,CREDIT_NOTELINE_DISCOUNT FROM credit_noteline WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
+
+SELECT SALES_INVOICE_NUM,SALES_INVOICE_CREDIT_NOTE_AMOUNT FROM sales_invoice_credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
+
+SELECT DEBIT_NOTE_NUM,DEBIT_NOTE_CREDIT_NOTE_AMOUNT FROM debit_note_credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2275,6 +3325,73 @@ RESIGNAL;
 END;
 START TRANSACTION;
 SELECT *,DEBTOR_NUM AS DEBTOR_NUM_OLD FROM debtor WHERE DEBTOR_NUM=DEBTOR_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_DEBTOR_OUTSTANDING` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_DEBTOR_OUTSTANDING`(IN DEBTOR_NUM_PARAM VARCHAR(10),IN DOC_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+
+SELECT SALES_INVOICE_NUM AS NUM,  (SELECT DEBTOR_NAME FROM debtor WHERE debtor.DEBTOR_NUM=t1.DEBTOR_NUM) AS NAME,
+'INVOICE' AS TYPE, SALES_INVOICE_DATE AS DATE, SUM(SALES_INVOICELINE_SUBTOTAL) AS ORIGINAL_AMOUNT,
+ROUND((SELECT SUM(SALES_INVOICELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(SALES_INVOICE_CASH_RECEIPT_AMOUNT) FROM sales_invoice_cash_receipt WHERE SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM),0)
++IFNULL((SELECT SALES_INVOICE_CASH_RECEIPT_AMOUNT FROM sales_invoice_cash_receipt WHERE CASH_RECEIPT_NUM=DOC_NUM_PARAM AND SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(SALES_INVOICE_BANK_RECEIPT_AMOUNT) FROM sales_invoice_bank_receipt WHERE SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM),0)
++IFNULL((SELECT SALES_INVOICE_BANK_RECEIPT_AMOUNT FROM sales_invoice_bank_receipt WHERE BANK_RECEIPT_NUM=DOC_NUM_PARAM AND SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(SALES_INVOICE_CREDIT_NOTE_AMOUNT) FROM sales_invoice_credit_note WHERE SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM),0)
++IFNULL((SELECT SALES_INVOICE_CREDIT_NOTE_AMOUNT FROM sales_invoice_credit_note WHERE CREDIT_NOTE_NUM=DOC_NUM_PARAM AND SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM),0)
+),2) AS OUTSTANDING 
+from sales_invoice as t1 LEFT JOIN sales_invoiceline USING (SALES_INVOICE_NUM) WHERE  t1.DEBTOR_NUM=DEBTOR_NUM_PARAM AND 
+(SELECT SUM(SALES_INVOICELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(SALES_INVOICE_CASH_RECEIPT_AMOUNT) FROM sales_invoice_cash_receipt WHERE SALES_INVOICE_NUM=t2.SALES_INVOICE_NUM),0)
++IFNULL((SELECT SALES_INVOICE_CASH_RECEIPT_AMOUNT FROM sales_invoice_cash_receipt WHERE CASH_RECEIPT_NUM=DOC_NUM_PARAM AND SALES_INVOICE_NUM=t2.SALES_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(SALES_INVOICE_BANK_RECEIPT_AMOUNT) FROM sales_invoice_bank_receipt WHERE SALES_INVOICE_NUM=t2.SALES_INVOICE_NUM),0)
++IFNULL((SELECT SALES_INVOICE_BANK_RECEIPT_AMOUNT FROM sales_invoice_bank_receipt WHERE BANK_RECEIPT_NUM=DOC_NUM_PARAM AND SALES_INVOICE_NUM=t2.SALES_INVOICE_NUM),0)
+-IFNULL((SELECT SUM(SALES_INVOICE_CREDIT_NOTE_AMOUNT) FROM sales_invoice_credit_note WHERE SALES_INVOICE_NUM=t2.SALES_INVOICE_NUM),0)
++IFNULL((SELECT SALES_INVOICE_CREDIT_NOTE_AMOUNT FROM sales_invoice_credit_note WHERE CREDIT_NOTE_NUM=DOC_NUM_PARAM AND SALES_INVOICE_NUM=t2.SALES_INVOICE_NUM),0)
+from sales_invoice as t2 LEFT JOIN sales_invoiceline USING (SALES_INVOICE_NUM) WHERE t2.SALES_INVOICE_NUM=t1.SALES_INVOICE_NUM)>0
+GROUP BY SALES_INVOICE_NUM UNION ALL 
+(SELECT DEBIT_NOTE_NUM, (SELECT DEBTOR_NAME FROM debtor WHERE debtor.DEBTOR_NUM=t3.DEBTOR_NUM) AS NAME,
+'DEBIT NOTE' AS TYPE,DEBIT_NOTE_DATE, SUM(DEBIT_NOTELINE_SUBTOTAL) AS ORIGINAL_AMOUNT,
+ROUND((SELECT SUM(DEBIT_NOTELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(DEBIT_NOTE_CASH_RECEIPT_AMOUNT) FROM debit_note_cash_receipt WHERE DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM),0)
++IFNULL((SELECT DEBIT_NOTE_CASH_RECEIPT_AMOUNT FROM debit_note_cash_receipt WHERE CASH_RECEIPT_NUM=DOC_NUM_PARAM AND DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(DEBIT_NOTE_BANK_RECEIPT_AMOUNT) FROM debit_note_bank_receipt WHERE DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM),0)
++IFNULL((SELECT DEBIT_NOTE_BANK_RECEIPT_AMOUNT FROM debit_note_bank_receipt WHERE BANK_RECEIPT_NUM=DOC_NUM_PARAM AND DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(DEBIT_NOTE_CREDIT_NOTE_AMOUNT) FROM debit_note_credit_note WHERE DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM),0)
++IFNULL((SELECT DEBIT_NOTE_CREDIT_NOTE_AMOUNT FROM debit_note_credit_note WHERE CREDIT_NOTE_NUM=DOC_NUM_PARAM AND DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM),0)
+),2) AS OUTSTANDING
+from debit_note as t3 LEFT JOIN debit_noteline using (DEBIT_NOTE_NUM) WHERE t3.DEBTOR_NUM=DEBTOR_NUM_PARAM AND 
+(SELECT SUM(DEBIT_NOTELINE_SUBTOTAL)
+-IFNULL((SELECT SUM(DEBIT_NOTE_CASH_RECEIPT_AMOUNT) FROM debit_note_cash_receipt WHERE DEBIT_NOTE_NUM=t4.DEBIT_NOTE_NUM),0)
++IFNULL((SELECT DEBIT_NOTE_CASH_RECEIPT_AMOUNT FROM debit_note_cash_receipt WHERE CASH_RECEIPT_NUM=DOC_NUM_PARAM AND DEBIT_NOTE_NUM=t4.DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(DEBIT_NOTE_BANK_RECEIPT_AMOUNT) FROM debit_note_bank_receipt WHERE DEBIT_NOTE_NUM=t4.DEBIT_NOTE_NUM),0)
++IFNULL((SELECT DEBIT_NOTE_BANK_RECEIPT_AMOUNT FROM debit_note_bank_receipt WHERE BANK_RECEIPT_NUM=DOC_NUM_PARAM AND DEBIT_NOTE_NUM=t4.DEBIT_NOTE_NUM),0)
+-IFNULL((SELECT SUM(DEBIT_NOTE_CREDIT_NOTE_AMOUNT) FROM debit_note_credit_note WHERE DEBIT_NOTE_NUM=t4.DEBIT_NOTE_NUM),0)
++IFNULL((SELECT DEBIT_NOTE_CREDIT_NOTE_AMOUNT FROM debit_note_credit_note WHERE CREDIT_NOTE_NUM=DOC_NUM_PARAM AND DEBIT_NOTE_NUM=t4.DEBIT_NOTE_NUM),0)
+from debit_note as t4 LEFT JOIN debit_noteline using (DEBIT_NOTE_NUM) WHERE t4.DEBIT_NOTE_NUM=t3.DEBIT_NOTE_NUM)>0 
+GROUP BY DEBIT_NOTE_NUM) ORDER BY DATE;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2449,6 +3566,8 @@ END;
 START TRANSACTION;
 SELECT CREDITOR_NUM, CREDITOR_NAME, CREDITOR_ADDRESS, PURCHASE_CREDIT_NOTE_NUM,PURCHASE_CREDIT_NOTE_DATE,PURCHASE_CREDIT_NOTE_DESC, purchase_credit_note.GL_ACC_NUM, PURCHASE_CREDIT_NOTE_NUM AS PURCHASE_CREDIT_NOTE_NUM_OLD FROM creditor JOIN purchase_credit_note USING (CREDITOR_NUM) WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
 SELECT PURCHASE_CREDIT_NOTELINE_LINENUMBER,PURCHASE_CREDIT_NOTELINE_STOCK_NUM,PURCHASE_CREDIT_NOTELINE_STOCK_DESC,PURCHASE_CREDIT_NOTELINE_STOCK_PRICE,PURCHASE_CREDIT_NOTELINE_STOCK_QTY,PURCHASE_CREDIT_NOTELINE_DISCOUNT FROM purchase_credit_noteline WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
+SELECT PURCHASE_INVOICE_NUM,PURCHASE_INVOICE_PURCHASE_CREDIT_NOTE_AMOUNT FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
+SELECT PURCHASE_DEBIT_NOTE_NUM,PURCHASE_DEBIT_NOTE_PURCHASE_CREDIT_NOTE_AMOUNT FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM;
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2474,7 +3593,7 @@ ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
-SELECT PURCHASE_CREDIT_NOTE_NUM,CREDITOR_NAME, PURCHASE_CREDIT_NOTE_DATE,PURCHASE_CREDIT_NOTE_DESC, SUM(PURCHASE_CREDIT_NOTELINE_SUBTOTAL) AS PURCHASE_CREDIT_NOTE_SUBTOTAL FROM creditor JOIN purchase_credit_note USING(CREDITOR_NUM) LEFT JOIN purchase_credit_noteline USING (PURCHASE_CREDIT_NOTE_NUM) GROUP BY PURCHASE_CREDIT_NOTE_NUM ORDER BY PURCHASE_CREDIT_NOTE_NUM;
+SELECT PURCHASE_CREDIT_NOTE_DATE,CREDITOR_NAME, PURCHASE_CREDIT_NOTE_NUM,PURCHASE_CREDIT_NOTE_DESC, SUM(PURCHASE_CREDIT_NOTELINE_SUBTOTAL) AS PURCHASE_CREDIT_NOTE_SUBTOTAL FROM creditor JOIN purchase_credit_note USING(CREDITOR_NUM) LEFT JOIN purchase_credit_noteline USING (PURCHASE_CREDIT_NOTE_NUM) GROUP BY PURCHASE_CREDIT_NOTE_NUM ORDER BY PURCHASE_CREDIT_NOTE_DATE;
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2492,7 +3611,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `SELECT_PURCHASE_DEBIT_NOTE`(IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(10))
+CREATE  PROCEDURE `SELECT_PURCHASE_DEBIT_NOTE`(IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(50))
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
@@ -2527,7 +3646,7 @@ ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
-SELECT PURCHASE_DEBIT_NOTE_NUM,CREDITOR_NAME,PURCHASE_DEBIT_NOTE_DATE,PURCHASE_DEBIT_NOTE_DESC, SUM(PURCHASE_DEBIT_NOTELINE_SUBTOTAL) AS PURCHASE_DEBIT_NOTE_SUBTOTAL FROM creditor JOIN purchase_debit_note USING(CREDITOR_NUM) LEFT JOIN purchase_debit_noteline USING (PURCHASE_DEBIT_NOTE_NUM) GROUP BY PURCHASE_DEBIT_NOTE_NUM ORDER BY PURCHASE_DEBIT_NOTE_NUM;
+SELECT PURCHASE_DEBIT_NOTE_DATE,CREDITOR_NAME,PURCHASE_DEBIT_NOTE_NUM,PURCHASE_DEBIT_NOTE_DESC, SUM(PURCHASE_DEBIT_NOTELINE_SUBTOTAL) AS PURCHASE_DEBIT_NOTE_SUBTOTAL FROM creditor JOIN purchase_debit_note USING(CREDITOR_NUM) LEFT JOIN purchase_debit_noteline USING (PURCHASE_DEBIT_NOTE_NUM) GROUP BY PURCHASE_DEBIT_NOTE_NUM ORDER BY PURCHASE_DEBIT_NOTE_DATE;
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2580,7 +3699,60 @@ ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
-SELECT PURCHASE_INVOICE_NUM,CREDITOR_NAME,PURCHASE_INVOICE_DATE,purchase_invoice.GL_ACC_NUM, PURCHASE_INVOICE_DESC, SUM(PURCHASE_INVOICELINE_SUBTOTAL) AS PURCHASE_INVOICE_SUBTOTAL FROM creditor JOIN purchase_invoice USING(CREDITOR_NUM) LEFT JOIN purchase_invoiceline USING(PURCHASE_INVOICE_NUM) GROUP BY PURCHASE_INVOICE_NUM ORDER BY PURCHASE_INVOICE_NUM;
+SELECT PURCHASE_INVOICE_DATE,CREDITOR_NAME,PURCHASE_INVOICE_NUM,purchase_invoice.GL_ACC_NUM, PURCHASE_INVOICE_DESC, SUM(PURCHASE_INVOICELINE_SUBTOTAL) AS PURCHASE_INVOICE_SUBTOTAL FROM creditor JOIN purchase_invoice USING(CREDITOR_NUM) LEFT JOIN purchase_invoiceline USING(PURCHASE_INVOICE_NUM) GROUP BY PURCHASE_INVOICE_NUM ORDER BY PURCHASE_INVOICE_DATE;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_PURCHASE_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_PURCHASE_RETURN`(IN PURCHASE_RETURN_NUM_PARAM VARCHAR(10))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+SELECT CREDITOR_NUM, CREDITOR_NAME, CREDITOR_ADDRESS, PURCHASE_RETURN_NUM,PURCHASE_RETURN_DATE,PURCHASE_RETURN_DESC, PURCHASE_RETURN_NUM AS PURCHASE_RETURN_NUM_OLD FROM creditor JOIN purchase_return USING (CREDITOR_NUM) WHERE PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_PARAM;
+SELECT PURCHASE_RETURNLINE_LINENUMBER,PURCHASE_RETURNLINE_STOCK_NUM,PURCHASE_RETURNLINE_STOCK_DESC,PURCHASE_RETURNLINE_STOCK_QTY FROM purchase_returnline WHERE PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_PURCHASE_RETURNLIST` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_PURCHASE_RETURNLIST`()
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+SELECT PURCHASE_RETURN_NUM, CREDITOR_NAME,PURCHASE_RETURN_DATE,PURCHASE_RETURN_DESC FROM creditor JOIN purchase_return USING(CREDITOR_NUM) LEFT JOIN purchase_returnline USING (PURCHASE_RETURN_NUM) GROUP BY PURCHASE_RETURN_NUM ORDER BY PURCHASE_RETURN_NUM;
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2729,15 +3901,75 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_BANK_PAYMENT`(IN BANK_PAYMENT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN BANK_PAYMENT_DATE_PARAM DATE, IN BANK_PAYMENT_METHOD_PARAM VARCHAR(45),IN BANK_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_PAYMENT_DESC_PARAM VARCHAR(255),IN BANK_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_PAYMENT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `UPDATE_BANK_PAYMENT`(IN BANK_PAYMENT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN BANK_PAYMENT_DATE_PARAM DATE, IN BANK_PAYMENT_METHOD_PARAM VARCHAR(45),IN BANK_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_PAYMENT_DESC_PARAM VARCHAR(255),IN BANK_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_PAYMENT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255), IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
+DELETE FROM purchase_invoice_bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_OLD_PARAM;
+DELETE FROM purchase_debit_note_bank_payment WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_OLD_PARAM;
 UPDATE bank_payment SET BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_PARAM,BANK_NUM=BANK_NUM_PARAM,CREDITOR_NUM=CREDITOR_NUM_PARAM,BANK_PAYMENT_DATE=BANK_PAYMENT_DATE_PARAM,BANK_PAYMENT_METHOD=BANK_PAYMENT_METHOD_PARAM,BANK_PAYMENT_TRANSACTION_ID=BANK_PAYMENT_TRANSACTION_ID_PARAM,BANK_PAYMENT_DESC=BANK_PAYMENT_DESC_PARAM,BANK_PAYMENT_AMOUNT=BANK_PAYMENT_AMOUNT_PARAM,GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE BANK_PAYMENT_NUM=BANK_PAYMENT_NUM_OLD_PARAM;
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_invoice_bank_payment VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_debit_note_bank_payment VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2755,15 +3987,75 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_BANK_RECEIPT`(IN BANK_RECEIPT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN BANK_RECEIPT_DATE_PARAM DATE, IN BANK_RECEIPT_METHOD_PARAM VARCHAR(45),IN BANK_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_RECEIPT_DESC_PARAM VARCHAR(255),IN BANK_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_RECEIPT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `UPDATE_BANK_RECEIPT`(IN BANK_RECEIPT_NUM_PARAM VARCHAR(10),IN BANK_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN BANK_RECEIPT_DATE_PARAM DATE, IN BANK_RECEIPT_METHOD_PARAM VARCHAR(45),IN BANK_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN BANK_RECEIPT_DESC_PARAM VARCHAR(255),IN BANK_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM_PARAM INT,IN BANK_RECEIPT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255), IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
+DELETE FROM sales_invoice_bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_OLD_PARAM;
+DELETE FROM debit_note_bank_receipt WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_OLD_PARAM;
 UPDATE bank_receipt SET BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_PARAM,BANK_NUM=BANK_NUM_PARAM,DEBTOR_NUM=DEBTOR_NUM_PARAM,BANK_RECEIPT_DATE=BANK_RECEIPT_DATE_PARAM,BANK_RECEIPT_METHOD=BANK_RECEIPT_METHOD_PARAM,BANK_RECEIPT_TRANSACTION_ID=BANK_RECEIPT_TRANSACTION_ID_PARAM,BANK_RECEIPT_DESC=BANK_RECEIPT_DESC_PARAM,BANK_RECEIPT_AMOUNT=BANK_RECEIPT_AMOUNT_PARAM,GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE BANK_RECEIPT_NUM=BANK_RECEIPT_NUM_OLD_PARAM;
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT sales_invoice_bank_receipt VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT debit_note_bank_receipt VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',BANK_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2781,15 +4073,75 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_CASH_PAYMENT`(IN CASH_PAYMENT_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN CASH_PAYMENT_DATE_PARAM DATE, IN CASH_PAYMENT_METHOD_PARAM VARCHAR(45),IN CASH_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_PAYMENT_DESC_PARAM VARCHAR(255),IN CASH_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_PAYMENT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `UPDATE_CASH_PAYMENT`(IN CASH_PAYMENT_NUM_PARAM VARCHAR(10), IN CREDITOR_NUM_PARAM VARCHAR(10), IN CASH_PAYMENT_DATE_PARAM DATE, IN CASH_PAYMENT_METHOD_PARAM VARCHAR(45),IN CASH_PAYMENT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_PAYMENT_DESC_PARAM VARCHAR(255),IN CASH_PAYMENT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_PAYMENT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255), IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
+DELETE FROM purchase_invoice_cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_OLD_PARAM;
+DELETE FROM purchase_debit_note_cash_payment WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_OLD_PARAM;
 UPDATE cash_payment SET CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_PARAM,CREDITOR_NUM=CREDITOR_NUM_PARAM,CASH_PAYMENT_DATE=CASH_PAYMENT_DATE_PARAM,CASH_PAYMENT_METHOD=CASH_PAYMENT_METHOD_PARAM,CASH_PAYMENT_TRANSACTION_ID=CASH_PAYMENT_TRANSACTION_ID_PARAM,CASH_PAYMENT_DESC=CASH_PAYMENT_DESC_PARAM,CASH_PAYMENT_AMOUNT=CASH_PAYMENT_AMOUNT_PARAM,GL_ACC_NUM1=GL_ACC_NUM1_PARAM,GL_ACC_NUM2=DEFAULT WHERE CASH_PAYMENT_NUM=CASH_PAYMENT_NUM_OLD_PARAM;
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_invoice_cash_payment VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_debit_note_cash_payment VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_PAYMENT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2807,15 +4159,75 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_CASH_RECEIPT`(IN CASH_RECEIPT_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN CASH_RECEIPT_DATE_PARAM DATE, IN CASH_RECEIPT_METHOD_PARAM VARCHAR(45),IN CASH_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_RECEIPT_DESC_PARAM VARCHAR(255),IN CASH_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_RECEIPT_NUM_OLD_PARAM VARCHAR(10))
+CREATE  PROCEDURE `UPDATE_CASH_RECEIPT`(IN CASH_RECEIPT_NUM_PARAM VARCHAR(10), IN DEBTOR_NUM_PARAM VARCHAR(10), IN CASH_RECEIPT_DATE_PARAM DATE, IN CASH_RECEIPT_METHOD_PARAM VARCHAR(45),IN CASH_RECEIPT_TRANSACTION_ID_PARAM VARCHAR(45),IN CASH_RECEIPT_DESC_PARAM VARCHAR(255),IN CASH_RECEIPT_AMOUNT_PARAM DECIMAL(10,2),IN GL_ACC_NUM1_PARAM INT,IN GL_ACC_NUM2_PARAM INT,IN CASH_RECEIPT_NUM_OLD_PARAM VARCHAR(10), IN OFFSET_ONE_PARAM VARCHAR(255), IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
 BEGIN
 ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
+DELETE FROM sales_invoice_cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_OLD_PARAM;
+DELETE FROM debit_note_cash_receipt WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_OLD_PARAM;
 UPDATE cash_receipt SET CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_PARAM,DEBTOR_NUM=DEBTOR_NUM_PARAM,CASH_RECEIPT_DATE=CASH_RECEIPT_DATE_PARAM,CASH_RECEIPT_METHOD=CASH_RECEIPT_METHOD_PARAM,CASH_RECEIPT_TRANSACTION_ID=CASH_RECEIPT_TRANSACTION_ID_PARAM,CASH_RECEIPT_DESC=CASH_RECEIPT_DESC_PARAM,CASH_RECEIPT_AMOUNT=CASH_RECEIPT_AMOUNT_PARAM,GL_ACC_NUM1=GL_ACC_NUM1_PARAM,GL_ACC_NUM2=DEFAULT WHERE CASH_RECEIPT_NUM=CASH_RECEIPT_NUM_OLD_PARAM;
+
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT sales_invoice_cash_receipt VALUES ';
+
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT debit_note_cash_receipt VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CASH_RECEIPT_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
 COMMIT;
 END ;;
 DELIMITER ;
@@ -2859,9 +4271,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_CREDIT_NOTE`(IN DEBTOR_NUM_PARAM VARCHAR(10), IN DEBTOR_NAME_PARAM VARCHAR(255),IN DEBTOR_ADDRESS_PARAM VARCHAR(255), IN CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN CREDIT_NOTE_DATE_PARAM DATE, IN CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN CREDIT_NOTELINE_PARAM VARCHAR(255))
+CREATE  PROCEDURE `UPDATE_CREDIT_NOTE`(IN DEBTOR_NUM_PARAM VARCHAR(10), IN DEBTOR_NAME_PARAM VARCHAR(255),IN DEBTOR_ADDRESS_PARAM VARCHAR(255), IN CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN CREDIT_NOTE_DATE_PARAM DATE, IN CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN CREDIT_NOTELINE_PARAM VARCHAR(255), IN OFFSET_ONE_PARAM VARCHAR(255), IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
 DECLARE POS INT DEFAULT 1;
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
 DECLARE LENGTH INT DEFAULT 0;
 DECLARE DONE VARCHAR(20) DEFAULT 'NO';
 
@@ -2873,6 +4287,8 @@ END;
 
 START TRANSACTION;
 DELETE FROM credit_noteline WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM sales_invoice_credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM debit_note_credit_note WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_OLD_PARAM;
 UPDATE credit_note SET CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_PARAM, CREDIT_NOTE_DATE=CREDIT_NOTE_DATE_PARAM, CREDIT_NOTE_DESC=CREDIT_NOTE_DESC_PARAM, DEBTOR_NUM=DEBTOR_NUM_PARAM, GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE CREDIT_NOTE_NUM=CREDIT_NOTE_NUM_OLD_PARAM;
 
 IF CREDIT_NOTELINE_PARAM IS NOT NULL THEN 
@@ -2901,7 +4317,57 @@ DEALLOCATE PREPARE stmt;
 END;
 END IF;
 
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT sales_invoice_credit_note VALUES ';
 
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT debit_note_credit_note VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
 
 COMMIT;
 END ;;
@@ -2934,6 +4400,9 @@ END;
 
 START TRANSACTION;
 DELETE FROM debit_noteline WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM debit_note_cash_receipt WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM debit_note_bank_receipt WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM debit_note_credit_note WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_OLD_PARAM;
 UPDATE debit_note SET DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_PARAM, DEBIT_NOTE_DATE=DEBIT_NOTE_DATE_PARAM, DEBIT_NOTE_DESC=DEBIT_NOTE_DESC_PARAM, DEBTOR_NUM=DEBTOR_NUM_PARAM, GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE DEBIT_NOTE_NUM=DEBIT_NOTE_NUM_OLD_PARAM;
 
 IF DEBIT_NOTELINE_PARAM IS NOT NULL THEN 
@@ -3129,9 +4598,11 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_PURCHASE_CREDIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTE_DATE_PARAM DATE, IN PURCHASE_CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTELINE_PARAM VARCHAR(255))
+CREATE  PROCEDURE `UPDATE_PURCHASE_CREDIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_CREDIT_NOTE_NUM_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTE_DATE_PARAM DATE, IN PURCHASE_CREDIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_CREDIT_NOTELINE_PARAM VARCHAR(255), IN OFFSET_ONE_PARAM VARCHAR(255), IN OFFSET_TWO_PARAM VARCHAR(255))
 BEGIN
 DECLARE POS INT DEFAULT 1;
+DECLARE POS1 INT DEFAULT 1;
+DECLARE POS2 INT DEFAULT 1;
 DECLARE LENGTH INT DEFAULT 0;
 DECLARE DONE VARCHAR(20) DEFAULT 'NO';
 
@@ -3143,6 +4614,8 @@ END;
 
 START TRANSACTION;
 DELETE FROM purchase_credit_noteline WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM;
 UPDATE purchase_credit_note SET PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_PARAM, PURCHASE_CREDIT_NOTE_DATE=PURCHASE_CREDIT_NOTE_DATE_PARAM, PURCHASE_CREDIT_NOTE_DESC=PURCHASE_CREDIT_NOTE_DESC_PARAM, CREDITOR_NUM=CREDITOR_NUM_PARAM, GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE PURCHASE_CREDIT_NOTE_NUM=PURCHASE_CREDIT_NOTE_NUM_OLD_PARAM;
 
 IF PURCHASE_CREDIT_NOTELINE_PARAM IS NOT NULL THEN 
@@ -3171,7 +4644,57 @@ DEALLOCATE PREPARE stmt;
 END;
 END IF;
 
+IF OFFSET_ONE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_invoice_purchase_credit_note VALUES ';
 
+offset_one_loop:LOOP
+IF REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1),')') INTO @STRNG;
+LEAVE offset_one_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1) - POS1) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_ONE_PARAM,POS1,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_ONE_PARAM,'=',POS1)+1) INTO POS1;
+END;
+END IF;
+END LOOP offset_one_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+IF OFFSET_TWO_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_debit_note_purchase_credit_note VALUES ';
+
+offset_two_loop:LOOP
+IF REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2),')') INTO @STRNG;
+LEAVE offset_two_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2) - POS2) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',PURCHASE_CREDIT_NOTE_NUM_PARAM,'",',SUBSTRING(OFFSET_TWO_PARAM,POS2,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(OFFSET_TWO_PARAM,'=',POS2)+1) INTO POS2;
+END;
+END IF;
+END LOOP offset_two_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
 
 COMMIT;
 END ;;
@@ -3190,7 +4713,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE  PROCEDURE `UPDATE_PURCHASE_DEBIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(10), IN PURCHASE_DEBIT_NOTE_DATE_PARAM DATE, IN PURCHASE_DEBIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_DEBIT_NOTELINE_PARAM VARCHAR(255))
+CREATE  PROCEDURE `UPDATE_PURCHASE_DEBIT_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_DEBIT_NOTE_NUM_PARAM VARCHAR(50), IN PURCHASE_DEBIT_NOTE_DATE_PARAM DATE, IN PURCHASE_DEBIT_NOTE_DESC_PARAM VARCHAR(255), IN GL_ACC_NUM_PARAM INT, PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM VARCHAR(50), IN PURCHASE_DEBIT_NOTELINE_PARAM VARCHAR(255))
 BEGIN
 DECLARE POS INT DEFAULT 1;
 DECLARE LENGTH INT DEFAULT 0;
@@ -3204,6 +4727,9 @@ END;
 
 START TRANSACTION;
 DELETE FROM purchase_debit_noteline WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM purchase_debit_note_cash_payment WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM purchase_debit_note_bank_payment WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM;
+DELETE FROM purchase_debit_note_purchase_credit_note WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM;
 UPDATE purchase_debit_note SET PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_PARAM, PURCHASE_DEBIT_NOTE_DATE=PURCHASE_DEBIT_NOTE_DATE_PARAM, PURCHASE_DEBIT_NOTE_DESC=PURCHASE_DEBIT_NOTE_DESC_PARAM, CREDITOR_NUM=CREDITOR_NUM_PARAM, GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE PURCHASE_DEBIT_NOTE_NUM=PURCHASE_DEBIT_NOTE_NUM_OLD_PARAM;
 
 IF PURCHASE_DEBIT_NOTELINE_PARAM IS NOT NULL THEN 
@@ -3265,6 +4791,9 @@ END;
 
 START TRANSACTION;
 DELETE FROM purchase_invoiceline WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_OLD_PARAM;
+DELETE FROM purchase_invoice_cash_payment WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_OLD_PARAM;
+DELETE FROM purchase_invoice_bank_payment WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_OLD_PARAM;
+DELETE FROM purchase_invoice_purchase_credit_note WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_OLD_PARAM;
 UPDATE purchase_invoice SET PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_PARAM, PURCHASE_INVOICE_DATE=PURCHASE_INVOICE_DATE_PARAM, PURCHASE_INVOICE_DESC=PURCHASE_INVOICE_DESC_PARAM, CREDITOR_NUM=CREDITOR_NUM_PARAM, GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE PURCHASE_INVOICE_NUM=PURCHASE_INVOICE_NUM_OLD_PARAM;
 
 IF PURCHASE_INVOICELINE_PARAM IS NOT NULL THEN 
@@ -3285,6 +4814,67 @@ SELECT (REGEXP_INSTR(PURCHASE_INVOICELINE_PARAM,'=',POS)+1) INTO POS;
 END;
 END IF;
 END LOOP invoiceline_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `UPDATE_PURCHASE_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `UPDATE_PURCHASE_RETURN`(IN CREDITOR_NUM_PARAM VARCHAR(10), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN PURCHASE_RETURN_NUM_PARAM VARCHAR(10), IN PURCHASE_RETURN_DATE_PARAM DATE, IN PURCHASE_RETURN_DESC_PARAM VARCHAR(255), PURCHASE_RETURN_NUM_OLD_PARAM VARCHAR(10), IN PURCHASE_RETURNLINE_PARAM VARCHAR(255))
+BEGIN
+DECLARE POS INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+
+START TRANSACTION;
+DELETE FROM purchase_returnline WHERE PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_OLD_PARAM;
+UPDATE purchase_return SET PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_PARAM, PURCHASE_RETURN_DATE=PURCHASE_RETURN_DATE_PARAM, PURCHASE_RETURN_DESC=PURCHASE_RETURN_DESC_PARAM, CREDITOR_NUM=CREDITOR_NUM_PARAM WHERE PURCHASE_RETURN_NUM=PURCHASE_RETURN_NUM_OLD_PARAM;
+
+IF PURCHASE_RETURNLINE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT purchase_returnline VALUES ';
+
+purchasereturnline_loop:LOOP
+IF REGEXP_INSTR(PURCHASE_RETURNLINE_PARAM,'=',POS)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',PURCHASE_RETURN_NUM_PARAM,'",',SUBSTRING(PURCHASE_RETURNLINE_PARAM,POS),')') INTO @STRNG;
+LEAVE purchasereturnline_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(PURCHASE_RETURNLINE_PARAM,'=',POS) - POS) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',PURCHASE_RETURN_NUM_PARAM,'",',SUBSTRING(PURCHASE_RETURNLINE_PARAM,POS,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(PURCHASE_RETURNLINE_PARAM,'=',POS)+1) INTO POS;
+END;
+END IF;
+END LOOP purchasereturnline_loop;
 
 PREPARE stmt FROM @STRNG;
 EXECUTE stmt;
@@ -3326,6 +4916,9 @@ END;
 
 START TRANSACTION;
 DELETE FROM sales_invoiceline WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_OLD_PARAM;
+DELETE FROM sales_invoice_cash_receipt WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_OLD_PARAM;
+DELETE FROM sales_invoice_bank_receipt WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_OLD_PARAM;
+DELETE FROM sales_invoice_credit_note WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_OLD_PARAM;
 UPDATE sales_invoice SET SALES_INVOICE_NUM=SALES_INVOICE_NUM_PARAM, SALES_INVOICE_DATE=SALES_INVOICE_DATE_PARAM, SALES_INVOICE_DESC=SALES_INVOICE_DESC_PARAM, DEBTOR_NUM=DEBTOR_NUM_PARAM, GL_ACC_NUM=GL_ACC_NUM_PARAM WHERE SALES_INVOICE_NUM=SALES_INVOICE_NUM_OLD_PARAM;
 
 IF SALES_INVOICELINE_PARAM IS NOT NULL THEN 
@@ -3399,4 +4992,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-03 10:20:41
+-- Dump completed on 2020-03-15 15:03:30
