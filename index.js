@@ -8,6 +8,7 @@ const selectRoute=require('./route/selectRoute')
 const insertRoute=require('./route/insertRoute')
 const updateRoute=require('./route/updateRoute')
 const deleteRoute=require('./route/deleteRoute')
+const reportRoute=require('./route/reportRoute')
 const {getIDList,getEligibleGLAccount,getDebtorOutstanding,getCreditorOutstanding}=require('./route/otherRoute')
 
 
@@ -50,6 +51,10 @@ app.post('/UpdateItem',(req,res,next)=>cookieAuth(req,res,next),(req,res,next)=>
 
 app.post('/DeleteItem',(req,res,next)=>cookieAuth(req,res,next),(req,res,next)=>{
     deleteRoute(req,res,next,pool)
+})
+
+app.post('/ReportItem',(req,res,next)=>cookieAuth(req,res,next),(req,res,next)=>{
+    reportRoute(req,res,next,pool)
 })
 
 

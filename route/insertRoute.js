@@ -49,14 +49,14 @@ function insertRoute(req,res,next,pool) {
         break;
 
         case 'sales_invoice':
-        pool.query('CALL INSERT_SALES_INVOICE(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL INSERT_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         });
         
         break;
 
         case 'debit_note':
-        pool.query('CALL INSERT_DEBIT_NOTE(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL INSERT_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         });
         
@@ -77,13 +77,13 @@ function insertRoute(req,res,next,pool) {
         break;
 
         case 'purchase_invoice':
-        pool.query('CALL INSERT_PURCHASE_INVOICE(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL INSERT_PURCHASE_INVOICE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'purchase_debit_note':
-        pool.query('CALL INSERT_PURCHASE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL INSERT_PURCHASE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
