@@ -46,20 +46,20 @@ function updateRoute(req,res,next,pool) {
         break;
             
         case 'sales_invoice':
-        pool.query('CALL UPDATE_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'debit_note':
-        pool.query('CALL UPDATE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{    
+        pool.query('CALL UPDATE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{    
             res.send({error,data,field});
         })
         
         break;
 
         case 'credit_note':
-        pool.query('CALL UPDATE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
@@ -71,19 +71,19 @@ function updateRoute(req,res,next,pool) {
         break;
 
         case 'purchase_invoice':
-        pool.query('CALL UPDATE_PURCHASE_INVOICE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_INVOICE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'purchase_debit_note':
-        pool.query('CALL UPDATE_PURCHASE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'purchase_credit_note':
-        pool.query('CALL UPDATE_PURCHASE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;

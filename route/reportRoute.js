@@ -9,6 +9,13 @@ function reportRoute(req,res,next,pool) {
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null});
             })
         break;
+
+        case 'debtor_statement':
+            pool.query('CALL SELECT_DEBTOR_STATEMENT(?,?,?)',[...req.body.param],(error,data,field)=>{
+                dateParser(data?data[1]:null,field?field[1]:null)
+                res.send({error,data:data?data:null,field:field?field:null});
+            })
+        break;
     }
 }
 

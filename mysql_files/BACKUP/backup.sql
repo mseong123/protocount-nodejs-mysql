@@ -463,7 +463,7 @@ CREATE TABLE `debtor` (
 
 LOCK TABLES `debtor` WRITE;
 /*!40000 ALTER TABLE `debtor` DISABLE KEYS */;
-INSERT INTO `debtor` VALUES ('DEB-1','Sipro Plastic Industries Sdn Bhd',' Lot 7, Jalan Bawang Putih 24/3 Section 24, Shah Alam, Selangor','40000','03-5541 8064',NULL,NULL,'60',300),('DEB-2','Teck See Plastic Sdn. Bhd.','Seksyen 15, Shah Alam, Selangor','40200','03-5510 3188',NULL,NULL,'30',300),('DEB-3','Proreka (M) Sdn. Bhd.','No. 17, Jalan Industri PBP 3, Taman Industri Pusat Bandar Puchong, Puchong, Selangor','47100','03-5882 2661',NULL,NULL,'60',300),('DEB-4','testing1','testing1','testi','testing1',NULL,NULL,'COD',300),('DEB-5','testing2','testing2','testi','testi',NULL,NULL,'COD',300),('DEB-6','testing3','testing3','testi','testing3',NULL,NULL,'COD',300);
+INSERT INTO `debtor` VALUES ('DEB-1','Sipro Plastic Industries Sdn Bhd',' Lot 7, Jalan Bawang Putih 24/3 Section 24, Shah Alam, Selangor','40000','03-5541 8064',NULL,NULL,'60',300),('DEB-2','Teck See Plastic Sdn. Bhd.','Seksyen 15, Shah Alam, Selangor','40200','03-5510 3188',NULL,NULL,'30',300),('DEB-3','Proreka (M) Sdn. Bhd.','No. 17, Jalan Industri PBP 3, Taman Industri Pusat Bandar Puchong, Puchong, Selangor','47100','03-5882 2661',NULL,NULL,'60',300),('DEB-4','HICOM-Teck See Manufacturing Malaysia Sdn. Bhd.','Lot 75A & 76, Jalan Sementa 27/91, Section 27, Shah Alam, Shah Alam, Selangor','40000','03-5191 6077',NULL,NULL,'60',300),('DEB-5','Perodua Manufacturing Sdn Bhd','Lot 1896, Sungai Choh Mukim Serendah,Rawang,Selangor Darul Ehsan','48009','03-67338888',NULL,NULL,'60',300),('DEB-6','PROTON Holdings Berhad','HICOM Industrial Estate,Batu Tiga, Shah Alam,Selangor Darul Ehsan,','40000','603-5191 1055',NULL,NULL,'60',300);
 /*!40000 ALTER TABLE `debtor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1081,7 +1081,7 @@ CREATE TABLE `sales_invoice` (
 
 LOCK TABLES `sales_invoice` WRITE;
 /*!40000 ALTER TABLE `sales_invoice` DISABLE KEYS */;
-INSERT INTO `sales_invoice` VALUES ('SIPR-1','2020-03-02',NULL,'60','DEB-1',500),('TEST-1','2020-03-04',NULL,'COD','DEB-4',500),('TSP-1','2019-01-31',NULL,'30','DEB-2',500),('TSP-3','2020-03-10',NULL,'COD','DEB-2',500);
+INSERT INTO `sales_invoice` VALUES ('PRO-1','2020-01-31',NULL,'60','DEB-3',500),('PRO-2','2020-02-29',NULL,'60','DEB-3',500),('SIPR-1','2020-03-02',NULL,'60','DEB-1',500),('TSP-1','2019-01-01',NULL,'30','DEB-2',500),('TSP-10','2020-02-06',NULL,'30','DEB-2',500),('TSP-11','2020-02-10',NULL,'30','DEB-2',500),('TSP-2','2020-01-03',NULL,'30','DEB-2',500),('TSP-3','2020-01-07',NULL,'30','DEB-2',500),('TSP-4','2020-01-09',NULL,'30','DEB-2',500),('TSP-5','2020-01-16',NULL,'30','DEB-2',500),('TSP-6','2020-01-20',NULL,'30','DEB-2',500),('TSP-7','2020-01-28',NULL,'30','DEB-2',500),('TSP-8','2020-03-27',NULL,'30','DEB-2',500),('TSP-9','2020-02-03',NULL,'30','DEB-2',500);
 /*!40000 ALTER TABLE `sales_invoice` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1110,7 +1110,6 @@ CREATE TABLE `sales_invoice_bank_receipt` (
 
 LOCK TABLES `sales_invoice_bank_receipt` WRITE;
 /*!40000 ALTER TABLE `sales_invoice_bank_receipt` DISABLE KEYS */;
-INSERT INTO `sales_invoice_bank_receipt` VALUES ('BR-4','TSP-3',225.00);
 /*!40000 ALTER TABLE `sales_invoice_bank_receipt` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1139,7 +1138,6 @@ CREATE TABLE `sales_invoice_cash_receipt` (
 
 LOCK TABLES `sales_invoice_cash_receipt` WRITE;
 /*!40000 ALTER TABLE `sales_invoice_cash_receipt` DISABLE KEYS */;
-INSERT INTO `sales_invoice_cash_receipt` VALUES ('CR-3','TSP-3','275');
 /*!40000 ALTER TABLE `sales_invoice_cash_receipt` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1200,7 +1198,7 @@ CREATE TABLE `sales_invoiceline` (
 
 LOCK TABLES `sales_invoiceline` WRITE;
 /*!40000 ALTER TABLE `sales_invoiceline` DISABLE KEYS */;
-INSERT INTO `sales_invoiceline` (`SALES_INVOICE_NUM`, `SALES_INVOICELINE_LINENUMBER`, `SALES_INVOICELINE_STOCK_NUM`, `SALES_INVOICELINE_STOCK_DESC`, `SALES_INVOICELINE_STOCK_PRICE`, `SALES_INVOICELINE_STOCK_QTY`, `SALES_INVOICELINE_DISCOUNT`) VALUES ('SIPR-1',1,'FSKI-1','EXORA FRONT SKIRT',50.00,15,0.00),('TSP-1',1,'BUM-1','EXORA BUMPER5',55.00,4,0.00),('TSP-3',1,NULL,'discount',500.00,1,0.00);
+INSERT INTO `sales_invoiceline` (`SALES_INVOICE_NUM`, `SALES_INVOICELINE_LINENUMBER`, `SALES_INVOICELINE_STOCK_NUM`, `SALES_INVOICELINE_STOCK_DESC`, `SALES_INVOICELINE_STOCK_PRICE`, `SALES_INVOICELINE_STOCK_QTY`, `SALES_INVOICELINE_DISCOUNT`) VALUES ('PRO-1',1,'FBUM-1','EXORA FRONT BUMPER',55.00,10,0.00),('PRO-1',2,'FSKI-1','EXORA FRONT SKIRT',35.00,10,0.00),('PRO-2',1,'SPR-1','SPOILER',25.00,20,0.00),('SIPR-1',1,'FSKI-1','EXORA FRONT SKIRT',50.00,15,0.00),('TSP-1',1,'BUM-1','EXORA BUMPER5',55.00,4,0.00),('TSP-10',1,'FBUM-1','EXORA FRONT BUMPER',55.00,5,0.00),('TSP-11',1,'FBUM-1','EXORA FRONT BUMPER',55.00,12,0.00),('TSP-2',1,'FBUM-1','EXORA FRONT BUMPER',55.00,10,0.00),('TSP-3',1,'FBUM-1','EXORA FRONT BUMPER',55.00,20,0.00),('TSP-4',1,'FBUM-1','EXORA FRONT BUMPER',55.00,10,0.00),('TSP-5',1,'FBUM-1','EXORA FRONT BUMPER',55.00,5,0.00),('TSP-6',1,'FBUM-1','EXORA FRONT BUMPER',55.00,12,0.00),('TSP-7',1,'FBUM-1','EXORA FRONT BUMPER',55.00,6,0.00),('TSP-8',1,'FBUM-1','EXORA FRONT BUMPER',55.00,11,0.00),('TSP-9',1,'FBUM-1','EXORA FRONT BUMPER',55.00,16,0.00);
 /*!40000 ALTER TABLE `sales_invoiceline` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5494,4 +5492,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-23 16:24:18
+-- Dump completed on 2020-03-24 17:59:21
