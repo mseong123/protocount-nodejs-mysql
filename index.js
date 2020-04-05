@@ -20,14 +20,16 @@ app.use(express.static(path.join(__dirname,'public')))
 /*sanitise any req.body.param array element(including nested array elements which are also array itself) which contain input value of '' to null value
 to be inserted as value null into DB instead of ''*/
 app.use((req,res,next)=>{
-    
     if (req.body && req.body.param) {
         req.body.param=req.body.param.map(data=>{
             if (typeof data.forEach==='function'){
                 
-                return data.map(data2=>
-                    data2.map(item=>
-                        item===''?null:item))
+                return data.map(data2=>{
+                    if (data2.map)
+                    return data2.map(item=>
+                        item===''?null:item)
+                    else return data2
+                    })
                     }
             else return data===''?null:data
             })
