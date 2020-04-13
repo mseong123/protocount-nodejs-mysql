@@ -9,7 +9,13 @@ const insertRoute=require('./route/insertRoute')
 const updateRoute=require('./route/updateRoute')
 const deleteRoute=require('./route/deleteRoute')
 const reportRoute=require('./route/reportRoute')
-const {getIDList,getEligibleGLAccount,getDebtorOutstanding,getCreditorOutstanding}=require('./route/otherRoute')
+const {getIDList,
+    getEligibleGLAccount,
+    getDebtorOutstanding,
+    getCreditorOutstanding,
+    getReceiptHistory,
+    getPaymentHistory,
+}=require('./route/otherRoute')
 
 
 app.use(express.urlencoded({extended:false}));
@@ -74,6 +80,14 @@ app.post('/getDebtorOutstanding',(req,res,next)=>cookieAuth(req,res,next),(req,r
 
 app.post('/getCreditorOutstanding',(req,res,next)=>cookieAuth(req,res,next),(req,res,next)=>{
     getCreditorOutstanding(req,res,next,pool)
+});
+
+app.post('/getReceiptHistory',(req,res,next)=>cookieAuth(req,res,next),(req,res,next)=>{
+    getReceiptHistory(req,res,next,pool)
+});
+
+app.post('/getPaymentHistory',(req,res,next)=>cookieAuth(req,res,next),(req,res,next)=>{
+    getPaymentHistory(req,res,next,pool)
 });
 
 app.post('/userAuth',(req,res,next)=>{
