@@ -1,13 +1,5 @@
 const dateParser=require('../utilities/dateParser')
 
-function selectAll(req,res,next,pool) {
-    pool.query('SELECT * FROM '+ pool.escapeId(req.body.item),(error,data,field)=>{
-            //Parse date object retrieved from mysql(if any) to string format used in React controlled input field type 'date';
-            dateParser(data,field)
-            res.send({error,data,field})
-        })
-}
-
 function selectRoute (req,res,next,pool) {
     if (req.body) 
     switch (req.body.item) {
@@ -17,7 +9,14 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_STOCKLIST()',(error,data,field)=>{
+            /*data and field object are diff when returned from select statements in STORED PROCEDURE compared to normal select queries. 
+            Both objects are stored in SETS based on number of STORED PROCEDURE select statements and arranged in another outer layer array 
+            by MYSQL Node hence have to handle them*/
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
         break;
 
         case 'debtor':
@@ -26,7 +25,11 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_DEBTORLIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
         break; 
 
         case 'creditor':
@@ -35,7 +38,11 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_CREDITORLIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
         break; 
 
         case 'delivery_order':
@@ -59,10 +66,6 @@ function selectRoute (req,res,next,pool) {
                 }
             )
             else pool.query('CALL SELECT_DELIVERY_ORDERLIST()',(error,data,field)=>{
-                    /*data and field object are diff when returned from select statements in STORED PROCEDURE compared to normal select queries. 
-                    Both objects are stored in SETS based on number of STORED PROCEDURE select statements and arranged in another outer layer array 
-                    by MYSQL Node hence have to handle them*/
-                
                     dateParser(data?data[0]:null,field?field[0]:null)
                     res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
                 }
@@ -91,10 +94,6 @@ function selectRoute (req,res,next,pool) {
             }
         )
         else pool.query('CALL SELECT_SALES_INVOICELIST()',(error,data,field)=>{
-                /*data and field object are diff when returned from select statements in STORED PROCEDURE compared to normal select queries. 
-                Both objects are stored in SETS based on number of STORED PROCEDURE select statements and arranged in another outer layer array 
-                by MYSQL Node hence have to handle them*/
-            
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             }
@@ -333,7 +332,11 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else selectAll(req,res,next,pool);
+        else pool.query('CALL SELECT_BANKLIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
         break; 
 
         case 'bank_receipt':

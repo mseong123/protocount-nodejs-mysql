@@ -104,7 +104,41 @@ function getCreditorOutstanding (req,res,next,pool) {
     else next('Error happened during /getCreditorOutstanding request route.')
 }
 
+function getReceiptHistory (req,res,next,pool) {
+    if (req.body && req.body.item==='sales_invoice') 
+    pool.query('CALL SELECT_SALES_INVOICE_RECEIPT_HISTORY(?)',[req.body.param],(error,data,field)=>{
+            dateParser(data?data[0]:null,field?field[0]:null)
+            res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+    })
+    
+    else if (req.body && req.body.item==='debit_note') 
+        pool.query('CALL SELECT_DEBIT_NOTE_RECEIPT_HISTORY(?)',[req.body.param],(error,data,field)=>{
+            dateParser(data?data[0]:null,field?field[0]:null)
+            res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+    })
+    
+    else next('Error happened during /getReceiptHistory request route.')
+}
+
+function getPaymentHistory (req,res,next,pool) {
+    if (req.body && req.body.item==='purchase_invoice') 
+    pool.query('CALL SELECT_PURCHASE_INVOICE_PAYMENT_HISTORY(?)',[req.body.param],(error,data,field)=>{
+            dateParser(data?data[0]:null,field?field[0]:null)
+            res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+    })
+    
+    else if (req.body && req.body.item==='purchase_debit_note') 
+        pool.query('CALL SELECT_PURCHASE_DEBIT_NOTE_PAYMENT_HISTORY(?)',[req.body.param],(error,data,field)=>{
+            dateParser(data?data[0]:null,field?field[0]:null)
+            res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+    })
+    
+    else next('Error happened during /getPaymentHistory request route.')
+}
+
 module.exports.getIDList=getIDList;
 module.exports.getEligibleGLAccount=getEligibleGLAccount;
 module.exports.getDebtorOutstanding=getDebtorOutstanding;
 module.exports.getCreditorOutstanding=getCreditorOutstanding;
+module.exports.getReceiptHistory=getReceiptHistory;
+module.exports.getPaymentHistory=getPaymentHistory;
