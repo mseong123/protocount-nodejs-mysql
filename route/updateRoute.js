@@ -44,6 +44,12 @@ function updateRoute(req,res,next,pool) {
             res.send({error,data,field});
         })
         break;
+
+        case 'delivery_return':
+        pool.query('CALL UPDATE_DELIVERY_RETURN(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break;
             
         case 'sales_invoice':
         pool.query('CALL UPDATE_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
@@ -60,6 +66,12 @@ function updateRoute(req,res,next,pool) {
 
         case 'credit_note':
         pool.query('CALL UPDATE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break;
+
+        case 'goods_received_note':
+        pool.query('CALL UPDATE_GOODS_RECEIVED_NOTE(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;

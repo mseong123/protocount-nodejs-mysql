@@ -46,31 +46,58 @@ function selectRoute (req,res,next,pool) {
         break; 
 
         case 'delivery_order':
-            if (req.body.id) 
-                pool.query('CALL SELECT_DELIVERY_ORDER(?)',[req.body.id],(error,data,field)=>{
-                    /*consolidate result from 2 select statements inside stored procedures to be remitted to App*/
-                    dateParser(data?data[0]:null,field?field[0]:null)
-                    dateParser(data?data[1]:null,field?field[1]:null)
+        if (req.body.id) 
+            pool.query('CALL SELECT_DELIVERY_ORDER(?)',[req.body.id],(error,data,field)=>{
+                /*consolidate result from 2 select statements inside stored procedures to be remitted to App*/
+                dateParser(data?data[0]:null,field?field[0]:null)
+                dateParser(data?data[1]:null,field?field[1]:null)
                     
-                    let parsedLineData1=[];
-                    if (data && data[1] && data[0][0] && field[0] && field[1]) {
-                        data[1].forEach(lineData=>
-                            parsedLineData1.push(field[1].map(field=>
-                                lineData[field.name]
-                            ))
-                        )
-                        data[0][0]['deliveryorderlineList1']=parsedLineData1;
-                        field[0].push({name:'deliveryorderlineList1'})
-                    }
-                    res.send({error,data:data?data[0]:null,field:field?field[0]:null})
+                let parsedLineData1=[];
+                if (data && data[1] && data[0][0] && field[0] && field[1]) {
+                    data[1].forEach(lineData=>
+                        parsedLineData1.push(field[1].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['deliveryorderlineList1']=parsedLineData1;
+                    field[0].push({name:'deliveryorderlineList1'})
                 }
-            )
-            else pool.query('CALL SELECT_DELIVERY_ORDERLIST()',(error,data,field)=>{
-                    dateParser(data?data[0]:null,field?field[0]:null)
-                    res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+                res.send({error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
+        else pool.query('CALL SELECT_DELIVERY_ORDERLIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
+        break; 
+
+        case 'delivery_return':
+        if (req.body.id) 
+            pool.query('CALL SELECT_DELIVERY_RETURN(?)',[req.body.id],(error,data,field)=>{
+                /*consolidate result from 2 select statements inside stored procedures to be remitted to App*/
+                dateParser(data?data[0]:null,field?field[0]:null)
+                dateParser(data?data[1]:null,field?field[1]:null)
+                    
+                let parsedLineData1=[];
+                if (data && data[1] && data[0][0] && field[0] && field[1]) {
+                    data[1].forEach(lineData=>
+                        parsedLineData1.push(field[1].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['deliveryreturnlineList1']=parsedLineData1;
+                    field[0].push({name:'deliveryreturnlineList1'})
                 }
-            )
-            break; 
+                res.send({error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
+        else pool.query('CALL SELECT_DELIVERY_RETURNLIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
+        break; 
 
         case 'sales_invoice':
         if (req.body.id) 
@@ -183,6 +210,33 @@ function selectRoute (req,res,next,pool) {
         )
         break; 
 
+        case 'goods_received_note':
+        if (req.body.id) 
+            pool.query('CALL SELECT_GOODS_RECEIVED_NOTE(?)',[req.body.id],(error,data,field)=>{
+                /*consolidate result from 2 select statements inside stored procedures to be remitted to App*/
+                dateParser(data?data[0]:null,field?field[0]:null)
+                dateParser(data?data[1]:null,field?field[1]:null)
+                    
+                let parsedLineData1=[];
+                if (data && data[1] && data[0][0] && field[0] && field[1]) {
+                    data[1].forEach(lineData=>
+                        parsedLineData1.push(field[1].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['goodsreceivednotelineList1']=parsedLineData1;
+                    field[0].push({name:'goodsreceivednotelineList1'})
+                }
+                res.send({error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
+        else pool.query('CALL SELECT_GOODS_RECEIVED_NOTELIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
+        break;
+
         case 'purchase_return':
         if (req.body.id) 
             pool.query('CALL SELECT_PURCHASE_RETURN(?)',[req.body.id],(error,data,field)=>{
@@ -204,10 +258,6 @@ function selectRoute (req,res,next,pool) {
             }
         )
         else pool.query('CALL SELECT_PURCHASE_RETURNLIST()',(error,data,field)=>{
-                /*data and field object are diff when returned from select statements in STORED PROCEDURE compared to normal select queries. 
-                Both objects are stored in SETS based on number of STORED PROCEDURE select statements and arranged in another outer layer array 
-                by MYSQL Node hence have to handle them*/
-                
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             }

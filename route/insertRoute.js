@@ -48,6 +48,13 @@ function insertRoute(req,res,next,pool) {
         
         break;
 
+        case 'delivery_return':
+        pool.query('CALL INSERT_DELIVERY_RETURN(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+            res.send({error,data,field});
+        });
+        
+        break;
+
         case 'sales_invoice':
         pool.query('CALL INSERT_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
@@ -68,6 +75,12 @@ function insertRoute(req,res,next,pool) {
            
         });
         
+        break;
+
+        case 'goods_received_note':
+        pool.query('CALL INSERT_GOODS_RECEIVED_NOTE(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+            res.send({error,data,field});
+        })
         break;
 
         case 'purchase_return':

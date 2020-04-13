@@ -25,6 +25,12 @@ function deleteRoute(req,res,next,pool) {
         })
         break; 
 
+        case 'delivery_return':
+        pool.query('CALL DELETE_DELIVERY_RETURN(?)',[req.body.id.map(item=>JSON.stringify(item)).join()],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break; 
+
         case 'sales_invoice':
         pool.query('CALL DELETE_SALES_INVOICE(?)',[req.body.id.map(item=>JSON.stringify(item)).join()],(error,data,field)=>{
             res.send({error,data,field});
@@ -39,6 +45,12 @@ function deleteRoute(req,res,next,pool) {
 
         case 'credit_note':
         pool.query('CALL DELETE_CREDIT_NOTE(?)',[req.body.id.map(item=>JSON.stringify(item)).join()],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break; 
+
+        case 'goods_received_note':
+        pool.query('CALL DELETE_GOODS_RECEIVED_NOTE(?)',[req.body.id.map(item=>JSON.stringify(item)).join()],(error,data,field)=>{
             res.send({error,data,field});
         })
         break; 

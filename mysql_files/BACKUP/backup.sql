@@ -529,6 +529,63 @@ INSERT INTO `delivery_orderline` VALUES ('DO-1',1,'BUM-1','EXORA BUMPER',5),('DO
 UNLOCK TABLES;
 
 --
+-- Table structure for table `delivery_return`
+--
+
+DROP TABLE IF EXISTS `delivery_return`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `delivery_return` (
+  `DELIVERY_RETURN_NUM` varchar(20) NOT NULL,
+  `DELIVERY_RETURN_DATE` date NOT NULL,
+  `DELIVERY_RETURN_DESC` varchar(255) DEFAULT NULL,
+  `DEBTOR_NUM` varchar(20) NOT NULL,
+  PRIMARY KEY (`DELIVERY_RETURN_NUM`),
+  KEY `fk_DELIVERY_RETURN_DEBTOR1_idx` (`DEBTOR_NUM`),
+  CONSTRAINT `fk_DELIVERY_RETURN_DEBTOR1` FOREIGN KEY (`DEBTOR_NUM`) REFERENCES `debtor` (`DEBTOR_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery_return`
+--
+
+LOCK TABLES `delivery_return` WRITE;
+/*!40000 ALTER TABLE `delivery_return` DISABLE KEYS */;
+INSERT INTO `delivery_return` VALUES ('DR-1','2020-04-01',NULL,'DEB-1'),('DR-3','2020-04-02',NULL,'DEB-5'),('DR-4','2020-04-08','TEST','DEB-5');
+/*!40000 ALTER TABLE `delivery_return` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `delivery_returnline`
+--
+
+DROP TABLE IF EXISTS `delivery_returnline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `delivery_returnline` (
+  `DELIVERY_RETURN_NUM` varchar(20) NOT NULL,
+  `DELIVERY_RETURNLINE_LINENUMBER` int(11) NOT NULL,
+  `DELIVERY_RETURNLINE_STOCK_NUM` varchar(50) DEFAULT NULL,
+  `DELIVERY_RETURNLINE_STOCK_DESC` varchar(50) NOT NULL,
+  `DELIVERY_RETURNLINE_STOCK_QTY` int(11) NOT NULL,
+  PRIMARY KEY (`DELIVERY_RETURN_NUM`,`DELIVERY_RETURNLINE_LINENUMBER`),
+  KEY `fk_DELIVERY_RETURNLINE_DELIVERY_RETURN1_idx` (`DELIVERY_RETURN_NUM`),
+  CONSTRAINT `fk_DELIVERY_RETURNLINE_DELIVERY_RETURN1` FOREIGN KEY (`DELIVERY_RETURN_NUM`) REFERENCES `delivery_return` (`DELIVERY_RETURN_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery_returnline`
+--
+
+LOCK TABLES `delivery_returnline` WRITE;
+/*!40000 ALTER TABLE `delivery_returnline` DISABLE KEYS */;
+INSERT INTO `delivery_returnline` VALUES ('DR-1',1,'FBUM-1','EXORA FRONT BUMPER',5),('DR-3',1,'FSKI-1','EXORA FRONT SKIRT',2),('DR-4',1,'FBUM-1','EXORA FRONT BUMPER',2);
+/*!40000 ALTER TABLE `delivery_returnline` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `gl`
 --
 
@@ -579,6 +636,63 @@ LOCK TABLES `gl_category` WRITE;
 /*!40000 ALTER TABLE `gl_category` DISABLE KEYS */;
 INSERT INTO `gl_category` VALUES ('COST OF GOODS SOLD','PROFIT AND LOSS',11),('CURRENT ASSETS','BALANCE SHEET',3),('CURRENT LIABILITIES','BALANCE SHEET',4),('EQUITY','BALANCE SHEET',7),('EXPENSES','PROFIT AND LOSS',13),('FIXED ASSETS','BALANCE SHEET',1),('LONG TERM LIABILITIES','BALANCE SHEET',5),('OTHER ASSETS','BALANCE SHEET',2),('OTHER INCOME','PROFIT AND LOSS',12),('OTHER LIABILITIES','BALANCE SHEET',6),('SALES','PROFIT AND LOSS',9),('SALES ADJUSTMENTS','PROFIT AND LOSS',10),('TAXATION','PROFIT AND LOSS',14);
 /*!40000 ALTER TABLE `gl_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `goods_received_note`
+--
+
+DROP TABLE IF EXISTS `goods_received_note`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `goods_received_note` (
+  `GOODS_RECEIVED_NOTE_NUM` varchar(20) NOT NULL,
+  `GOODS_RECEIVED_NOTE_DATE` date NOT NULL,
+  `GOODS_RECEIVED_NOTE_DESC` varchar(255) DEFAULT NULL,
+  `CREDITOR_NUM` varchar(20) NOT NULL,
+  PRIMARY KEY (`GOODS_RECEIVED_NOTE_NUM`),
+  KEY `fk_GOODS_RECEIVED_NOTE_CREDITOR1_idx` (`CREDITOR_NUM`),
+  CONSTRAINT `fk_GOODS_RECEIVED_NOTE_CREDITOR1` FOREIGN KEY (`CREDITOR_NUM`) REFERENCES `creditor` (`CREDITOR_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `goods_received_note`
+--
+
+LOCK TABLES `goods_received_note` WRITE;
+/*!40000 ALTER TABLE `goods_received_note` DISABLE KEYS */;
+INSERT INTO `goods_received_note` VALUES ('GRN-2','2020-04-07','123','CRED-2'),('GRN-5','2020-04-08',NULL,'CRED-2');
+/*!40000 ALTER TABLE `goods_received_note` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `goods_received_noteline`
+--
+
+DROP TABLE IF EXISTS `goods_received_noteline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `goods_received_noteline` (
+  `GOODS_RECEIVED_NOTE_NUM` varchar(20) NOT NULL,
+  `GOODS_RECEIVED_NOTELINE_LINENUMBER` int(11) NOT NULL,
+  `GOODS_RECEIVED_NOTELINE_STOCK_NUM` varchar(50) DEFAULT NULL,
+  `GOODS_RECEIVED_NOTELINE_STOCK_DESC` varchar(50) NOT NULL,
+  `GOODS_RECEIVED_NOTELINE_STOCK_QTY` int(11) NOT NULL,
+  PRIMARY KEY (`GOODS_RECEIVED_NOTELINE_LINENUMBER`,`GOODS_RECEIVED_NOTE_NUM`),
+  KEY `fk_GOODS_RECEIVED_NOTELINE_GOODS_RECEIVED_NOTE1_idx` (`GOODS_RECEIVED_NOTE_NUM`),
+  CONSTRAINT `fk_GOODS_RECEIVED_NOTELINE_GOODS_RECEIVED_NOTE1` FOREIGN KEY (`GOODS_RECEIVED_NOTE_NUM`) REFERENCES `goods_received_note` (`GOODS_RECEIVED_NOTE_NUM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `goods_received_noteline`
+--
+
+LOCK TABLES `goods_received_noteline` WRITE;
+/*!40000 ALTER TABLE `goods_received_noteline` DISABLE KEYS */;
+INSERT INTO `goods_received_noteline` VALUES ('GRN-2',1,'FBUM-1','EXORA FRONT BUMPER',5),('GRN-2',2,'SPR-1','SPOILER',5);
+/*!40000 ALTER TABLE `goods_received_noteline` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1712,6 +1826,86 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_DELIVERY_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_DELIVERY_RETURN`(IN DELIVERY_RETURN_NUM_PARAM VARCHAR(255))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+
+SET @STRNG ='DELETE FROM delivery_returnline WHERE DELIVERY_RETURN_NUM IN (';
+SELECT CONCAT(@STRNG,DELIVERY_RETURN_NUM_PARAM,')') INTO @STRNG;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @STRNG ='DELETE FROM delivery_return WHERE DELIVERY_RETURN_NUM IN (';
+SELECT CONCAT(@STRNG,DELIVERY_RETURN_NUM_PARAM,')') INTO @STRNG;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `DELETE_GOODS_RECEIVED_NOTE` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `DELETE_GOODS_RECEIVED_NOTE`(IN GOODS_RECEIVED_NOTE_NUM_PARAM VARCHAR(255))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+
+SET @STRNG ='DELETE FROM goods_received_noteline WHERE GOODS_RECEIVED_NOTE_NUM IN (';
+SELECT CONCAT(@STRNG,GOODS_RECEIVED_NOTE_NUM_PARAM,')') INTO @STRNG;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @STRNG ='DELETE FROM goods_received_note WHERE GOODS_RECEIVED_NOTE_NUM IN (';
+SELECT CONCAT(@STRNG,GOODS_RECEIVED_NOTE_NUM_PARAM,')') INTO @STRNG;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `DELETE_JOURNAL` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -2724,6 +2918,128 @@ SELECT (REGEXP_INSTR(DELIVERY_ORDERLINE_PARAM,'=',POS)+1) INTO POS;
 END;
 END IF;
 END LOOP deliveryorderline_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `INSERT_DELIVERY_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `INSERT_DELIVERY_RETURN`(IN DEBTOR_NUM_PARAM VARCHAR(20), IN DEBTOR_NAME_PARAM VARCHAR(255),IN DEBTOR_ADDRESS_PARAM VARCHAR(255), IN DELIVERY_RETURN_NUM_PARAM VARCHAR(20), IN DELIVERY_RETURN_DATE_PARAM DATE, IN DELIVERY_RETURN_DESC_PARAM VARCHAR(255), IN DELIVERY_RETURN_NUM_OLD_PARAM VARCHAR(20), IN DELIVERY_RETURNLINE_PARAM VARCHAR(255))
+BEGIN
+DECLARE POS INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+
+START TRANSACTION;
+
+INSERT delivery_return VALUES(DELIVERY_RETURN_NUM_PARAM,DELIVERY_RETURN_DATE_PARAM,DELIVERY_RETURN_DESC_PARAM,DEBTOR_NUM_PARAM);
+
+IF DELIVERY_RETURNLINE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT delivery_returnline VALUES ';
+
+deliveryreturnline_loop:LOOP
+IF REGEXP_INSTR(DELIVERY_RETURNLINE_PARAM,'=',POS)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',DELIVERY_RETURN_NUM_PARAM,'",',SUBSTRING(DELIVERY_RETURNLINE_PARAM,POS),')') INTO @STRNG;
+LEAVE deliveryreturnline_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(DELIVERY_RETURNLINE_PARAM,'=',POS) - POS) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',DELIVERY_RETURN_NUM_PARAM,'",',SUBSTRING(DELIVERY_RETURNLINE_PARAM,POS,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(DELIVERY_RETURNLINE_PARAM,'=',POS)+1) INTO POS;
+END;
+END IF;
+END LOOP deliveryreturnline_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `INSERT_GOODS_RECEIVED_NOTE` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `INSERT_GOODS_RECEIVED_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(20), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN GOODS_RECEIVED_NOTE_NUM_PARAM VARCHAR(20), IN GOODS_RECEIVED_NOTE_DATE_PARAM DATE, IN GOODS_RECEIVED_NOTE_DESC_PARAM VARCHAR(255), IN GOODS_RECEIVED_NOTE_NUM_OLD_PARAM VARCHAR(20), IN GOODS_RECEIVED_NOTELINE_PARAM VARCHAR(255))
+BEGIN
+DECLARE POS INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+
+START TRANSACTION;
+
+INSERT goods_received_note VALUES(GOODS_RECEIVED_NOTE_NUM_PARAM,GOODS_RECEIVED_NOTE_DATE_PARAM,GOODS_RECEIVED_NOTE_DESC_PARAM,CREDITOR_NUM_PARAM);
+
+IF GOODS_RECEIVED_NOTELINE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT goods_received_noteline VALUES ';
+
+goodsreceivednoteline_loop:LOOP
+IF REGEXP_INSTR(GOODS_RECEIVED_NOTELINE_PARAM,'=',POS)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',GOODS_RECEIVED_NOTE_NUM_PARAM,'",',SUBSTRING(GOODS_RECEIVED_NOTELINE_PARAM,POS),')') INTO @STRNG;
+LEAVE goodsreceivednoteline_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(GOODS_RECEIVED_NOTELINE_PARAM,'=',POS) - POS) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',GOODS_RECEIVED_NOTE_NUM_PARAM,'",',SUBSTRING(GOODS_RECEIVED_NOTELINE_PARAM,POS,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(GOODS_RECEIVED_NOTELINE_PARAM,'=',POS)+1) INTO POS;
+END;
+END IF;
+END LOOP goodsreceivednoteline_loop;
 
 PREPARE stmt FROM @STRNG;
 EXECUTE stmt;
@@ -4184,6 +4500,112 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_DELIVERY_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_DELIVERY_RETURN`(IN DELIVERY_RETURN_NUM_PARAM VARCHAR(20))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+SELECT DEBTOR_NUM, DEBTOR_NAME, DEBTOR_ADDRESS, DELIVERY_RETURN_NUM,DELIVERY_RETURN_DATE,DELIVERY_RETURN_DESC, DELIVERY_RETURN_NUM AS DELIVERY_RETURN_NUM_OLD FROM debtor JOIN delivery_return USING (DEBTOR_NUM) WHERE DELIVERY_RETURN_NUM=DELIVERY_RETURN_NUM_PARAM;
+SELECT DELIVERY_RETURNLINE_LINENUMBER,DELIVERY_RETURNLINE_STOCK_NUM,DELIVERY_RETURNLINE_STOCK_DESC,DELIVERY_RETURNLINE_STOCK_QTY FROM delivery_returnline WHERE DELIVERY_RETURN_NUM=DELIVERY_RETURN_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_DELIVERY_RETURNLIST` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_DELIVERY_RETURNLIST`()
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+SELECT DELIVERY_RETURN_NUM AS NUM, DEBTOR_NAME,DELIVERY_RETURN_DATE AS DATE,DELIVERY_RETURN_DESC AS DESCRIPTION,SUM(DELIVERY_RETURNLINE_STOCK_QTY) AS QTY FROM debtor JOIN delivery_return USING(DEBTOR_NUM) LEFT JOIN delivery_returnline USING (DELIVERY_RETURN_NUM) GROUP BY DELIVERY_RETURN_NUM ORDER BY DELIVERY_RETURN_NUM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_GOODS_RECEIVED_NOTE` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_GOODS_RECEIVED_NOTE`(IN GOODS_RECEIVED_NOTE_NUM_PARAM VARCHAR(20))
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+SELECT CREDITOR_NUM, CREDITOR_NAME, CREDITOR_ADDRESS, GOODS_RECEIVED_NOTE_NUM,GOODS_RECEIVED_NOTE_DATE,GOODS_RECEIVED_NOTE_DESC, GOODS_RECEIVED_NOTE_NUM AS GOODS_RECEIVED_NOTE_NUM_OLD FROM creditor JOIN goods_received_note USING (CREDITOR_NUM) WHERE GOODS_RECEIVED_NOTE_NUM=GOODS_RECEIVED_NOTE_NUM_PARAM;
+SELECT GOODS_RECEIVED_NOTELINE_LINENUMBER,GOODS_RECEIVED_NOTELINE_STOCK_NUM,GOODS_RECEIVED_NOTELINE_STOCK_DESC,GOODS_RECEIVED_NOTELINE_STOCK_QTY FROM goods_received_noteline WHERE GOODS_RECEIVED_NOTE_NUM=GOODS_RECEIVED_NOTE_NUM_PARAM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `SELECT_GOODS_RECEIVED_NOTELIST` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `SELECT_GOODS_RECEIVED_NOTELIST`()
+BEGIN
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+START TRANSACTION;
+SELECT GOODS_RECEIVED_NOTE_NUM AS NUM, CREDITOR_NAME,GOODS_RECEIVED_NOTE_DATE AS DATE,GOODS_RECEIVED_NOTE_DESC AS DESCRIPTION,SUM(GOODS_RECEIVED_NOTELINE_STOCK_QTY) AS QTY FROM creditor JOIN goods_received_note USING(CREDITOR_NUM) LEFT JOIN goods_received_noteline USING (GOODS_RECEIVED_NOTE_NUM) GROUP BY GOODS_RECEIVED_NOTE_NUM ORDER BY GOODS_RECEIVED_NOTE_NUM;
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `SELECT_JOURNAL` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -5389,6 +5811,128 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `UPDATE_DELIVERY_RETURN` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `UPDATE_DELIVERY_RETURN`(IN DEBTOR_NUM_PARAM VARCHAR(20), IN DEBTOR_NAME_PARAM VARCHAR(255),IN DEBTOR_ADDRESS_PARAM VARCHAR(255), IN DELIVERY_RETURN_NUM_PARAM VARCHAR(20), IN DELIVERY_RETURN_DATE_PARAM DATE, IN DELIVERY_RETURN_DESC_PARAM VARCHAR(255), DELIVERY_RETURN_NUM_OLD_PARAM VARCHAR(20), IN DELIVERY_RETURNLINE_PARAM VARCHAR(255))
+BEGIN
+DECLARE POS INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+
+START TRANSACTION;
+DELETE FROM delivery_returnline WHERE DELIVERY_RETURN_NUM=DELIVERY_RETURN_NUM_OLD_PARAM;
+UPDATE delivery_return SET DELIVERY_RETURN_NUM=DELIVERY_RETURN_NUM_PARAM, DELIVERY_RETURN_DATE=DELIVERY_RETURN_DATE_PARAM, DELIVERY_RETURN_DESC=DELIVERY_RETURN_DESC_PARAM, DEBTOR_NUM=DEBTOR_NUM_PARAM WHERE DELIVERY_RETURN_NUM=DELIVERY_RETURN_NUM_OLD_PARAM;
+
+IF DELIVERY_RETURNLINE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT delivery_returnline VALUES ';
+
+deliveryreturnline_loop:LOOP
+IF REGEXP_INSTR(DELIVERY_RETURNLINE_PARAM,'=',POS)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',DELIVERY_RETURN_NUM_PARAM,'",',SUBSTRING(DELIVERY_RETURNLINE_PARAM,POS),')') INTO @STRNG;
+LEAVE deliveryreturnline_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(DELIVERY_RETURNLINE_PARAM,'=',POS) - POS) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',DELIVERY_RETURN_NUM_PARAM,'",',SUBSTRING(DELIVERY_RETURNLINE_PARAM,POS,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(DELIVERY_RETURNLINE_PARAM,'=',POS)+1) INTO POS;
+END;
+END IF;
+END LOOP deliveryreturnline_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `UPDATE_GOODS_RECEIVED_NOTE` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE  PROCEDURE `UPDATE_GOODS_RECEIVED_NOTE`(IN CREDITOR_NUM_PARAM VARCHAR(20), IN CREDITOR_NAME_PARAM VARCHAR(255),IN CREDITOR_ADDRESS_PARAM VARCHAR(255), IN GOODS_RECEIVED_NOTE_NUM_PARAM VARCHAR(20), IN GOODS_RECEIVED_NOTE_DATE_PARAM DATE, IN GOODS_RECEIVED_NOTE_DESC_PARAM VARCHAR(255), GOODS_RECEIVED_NOTE_NUM_OLD_PARAM VARCHAR(20), IN GOODS_RECEIVED_NOTELINE_PARAM VARCHAR(255))
+BEGIN
+DECLARE POS INT DEFAULT 1;
+DECLARE LENGTH INT DEFAULT 0;
+DECLARE DONE VARCHAR(20) DEFAULT 'NO';
+
+DECLARE EXIT HANDLER FOR SQLEXCEPTION
+BEGIN
+ROLLBACK;
+RESIGNAL;
+END;
+
+START TRANSACTION;
+DELETE FROM goods_received_noteline WHERE GOODS_RECEIVED_NOTE_NUM=GOODS_RECEIVED_NOTE_NUM_OLD_PARAM;
+UPDATE goods_received_note SET GOODS_RECEIVED_NOTE_NUM=GOODS_RECEIVED_NOTE_NUM_PARAM, GOODS_RECEIVED_NOTE_DATE=GOODS_RECEIVED_NOTE_DATE_PARAM, GOODS_RECEIVED_NOTE_DESC=GOODS_RECEIVED_NOTE_DESC_PARAM, CREDITOR_NUM=CREDITOR_NUM_PARAM WHERE GOODS_RECEIVED_NOTE_NUM=GOODS_RECEIVED_NOTE_NUM_OLD_PARAM;
+
+IF GOODS_RECEIVED_NOTELINE_PARAM IS NOT NULL THEN 
+BEGIN
+SET @STRNG ='INSERT goods_received_noteline VALUES ';
+
+goodsreceivednoteline_loop:LOOP
+IF REGEXP_INSTR(GOODS_RECEIVED_NOTELINE_PARAM,'=',POS)=0 THEN 
+BEGIN
+SELECT CONCAT(@STRNG,'("',GOODS_RECEIVED_NOTE_NUM_PARAM,'",',SUBSTRING(GOODS_RECEIVED_NOTELINE_PARAM,POS),')') INTO @STRNG;
+LEAVE goodsreceivednoteline_loop;
+END;
+ELSE 
+BEGIN 
+SELECT (REGEXP_INSTR(GOODS_RECEIVED_NOTELINE_PARAM,'=',POS) - POS) INTO LENGTH;
+SELECT CONCAT(@STRNG,'("',GOODS_RECEIVED_NOTE_NUM_PARAM,'",',SUBSTRING(GOODS_RECEIVED_NOTELINE_PARAM,POS,LENGTH),'),') INTO @STRNG;
+SELECT (REGEXP_INSTR(GOODS_RECEIVED_NOTELINE_PARAM,'=',POS)+1) INTO POS;
+END;
+END IF;
+END LOOP goodsreceivednoteline_loop;
+
+PREPARE stmt FROM @STRNG;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+END;
+END IF;
+
+
+
+COMMIT;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `UPDATE_JOURNAL` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -5845,4 +6389,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-13 12:41:07
+-- Dump completed on 2020-04-13 17:15:59
