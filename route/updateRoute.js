@@ -22,7 +22,7 @@ function updateRoute(req,res,next,pool) {
     if (req.body)
     switch (req.body.item) {
         case 'stock':
-        pool.query('CALL UPDATE_STOCK(?,?,?,?,?,?,?,?,?,?)',[...req.body.param],(error,data,field)=>{
+        pool.query('CALL UPDATE_STOCK(?,?,?,?,?,?,?,?,?)',[...req.body.param],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
@@ -40,62 +40,62 @@ function updateRoute(req,res,next,pool) {
         break;
 
         case 'delivery_order':
-        pool.query('CALL UPDATE_DELIVERY_ORDER(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_DELIVERY_ORDER(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'delivery_return':
-        pool.query('CALL UPDATE_DELIVERY_RETURN(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_DELIVERY_RETURN(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
             
         case 'sales_invoice':
-        pool.query('CALL UPDATE_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_SALES_INVOICE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'debit_note':
-        pool.query('CALL UPDATE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{    
+        pool.query('CALL UPDATE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{    
             res.send({error,data,field});
         })
         
         break;
 
         case 'credit_note':
-        pool.query('CALL UPDATE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'goods_received_note':
-        pool.query('CALL UPDATE_GOODS_RECEIVED_NOTE(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_GOODS_RECEIVED_NOTE(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
         
         case 'purchase_return':
-        pool.query('CALL UPDATE_PURCHASE_RETURN(?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_RETURN(?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'purchase_invoice':
-        pool.query('CALL UPDATE_PURCHASE_INVOICE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_INVOICE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'purchase_debit_note':
-        pool.query('CALL UPDATE_PURCHASE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_DEBIT_NOTE(?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;
 
         case 'purchase_credit_note':
-        pool.query('CALL UPDATE_PURCHASE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
+        pool.query('CALL UPDATE_PURCHASE_CREDIT_NOTE(?,?,?,?,?,?,?,?,?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;

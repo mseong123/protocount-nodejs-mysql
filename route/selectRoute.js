@@ -9,14 +9,16 @@ function selectRoute (req,res,next,pool) {
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             })
-        else pool.query('CALL SELECT_STOCKLIST()',(error,data,field)=>{
+        else pool.query('CALL SELECT_STOCKLIST(?)',[req.body.param],(error,data,field)=>{
             /*data and field object are diff when returned from select statements in STORED PROCEDURE compared to normal select queries. 
             Both objects are stored in SETS based on number of STORED PROCEDURE select statements and arranged in another outer layer array 
             by MYSQL Node hence have to handle them*/
+            
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             }
         )
+        
         break;
 
         case 'debtor':
@@ -62,6 +64,18 @@ function selectRoute (req,res,next,pool) {
                     data[0][0]['deliveryorderlineList1']=parsedLineData1;
                     field[0].push({name:'deliveryorderlineList1'})
                 }
+                
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['deliveryorderlineList2']=parsedLineData2;
+                    field[0].push({name:'deliveryorderlineList2'})
+                }
+                
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
             }
         )
@@ -88,6 +102,17 @@ function selectRoute (req,res,next,pool) {
                     )
                     data[0][0]['deliveryreturnlineList1']=parsedLineData1;
                     field[0].push({name:'deliveryreturnlineList1'})
+                }
+
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['deliveryreturnlineList2']=parsedLineData2;
+                    field[0].push({name:'deliveryreturnlineList2'})
                 }
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
             }
@@ -116,7 +141,18 @@ function selectRoute (req,res,next,pool) {
                     data[0][0]['salesinvoicelineList1']=parsedLineData1;
                     field[0].push({name:'salesinvoicelineList1'})
                 }
-                
+
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['salesinvoicelineList2']=parsedLineData2;
+                    field[0].push({name:'salesinvoicelineList2'})
+                }
+
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
             }
         )
@@ -143,6 +179,17 @@ function selectRoute (req,res,next,pool) {
                     )
                     data[0][0]['debitnotelineList1']=parsedLineData1;
                     field[0].push({name:'debitnotelineList1'})
+                }
+
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['debitnotelineList2']=parsedLineData2;
+                    field[0].push({name:'debitnotelineList2'})
                 }
                 
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
@@ -198,12 +245,21 @@ function selectRoute (req,res,next,pool) {
                     field[0].push({name:'creditnotelineList3'})
                 }
 
+                let parsedLineData4=[];
+                if (data && data[4] && data[0][0] && field[0] && field[4]) {
+                    data[4].forEach(lineData=>
+                        parsedLineData4.push(field[4].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['creditnotelineList4']=parsedLineData4;
+                    field[0].push({name:'creditnotelineList4'})
+                }
+
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
             }
         )
         else pool.query('CALL SELECT_CREDIT_NOTELIST()',(error,data,field)=>{
-                
-            
                 dateParser(data?data[0]:null,field?field[0]:null)
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             }
@@ -226,6 +282,17 @@ function selectRoute (req,res,next,pool) {
                     )
                     data[0][0]['goodsreceivednotelineList1']=parsedLineData1;
                     field[0].push({name:'goodsreceivednotelineList1'})
+                }
+
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['goodsreceivednotelineList2']=parsedLineData2;
+                    field[0].push({name:'goodsreceivednotelineList2'})
                 }
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
             }
@@ -254,6 +321,17 @@ function selectRoute (req,res,next,pool) {
                     data[0][0]['purchasereturnlineList1']=parsedLineData1;
                     field[0].push({name:'purchasereturnlineList1'})
                 }
+
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['purchasereturnlineList2']=parsedLineData2;
+                    field[0].push({name:'purchasereturnlineList2'})
+                }
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
             }
         )
@@ -280,6 +358,16 @@ function selectRoute (req,res,next,pool) {
                     )
                     data[0][0]['purchaseinvoicelineList1']=parsedLineData1;
                     field[0].push({name:'purchaseinvoicelineList1'})
+                }
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['purchaseinvoicelineList2']=parsedLineData2;
+                    field[0].push({name:'purchaseinvoicelineList2'})
                 }
                 
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
@@ -309,6 +397,17 @@ function selectRoute (req,res,next,pool) {
                     )
                     data[0][0]['purchasedebitnotelineList1']=parsedLineData1;
                     field[0].push({name:'purchasedebitnotelineList1'})
+                }
+
+                let parsedLineData2=[];
+                if (data && data[2] && data[0][0] && field[0] && field[2]) {
+                    data[2].forEach(lineData=>
+                        parsedLineData2.push(field[2].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['purchasedebitnotelineList2']=parsedLineData2;
+                    field[0].push({name:'purchasedebitnotelineList2'})
                 }
                 
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})
@@ -363,6 +462,17 @@ function selectRoute (req,res,next,pool) {
                     )
                     data[0][0]['purchasecreditnotelineList3']=parsedLineData3;
                     field[0].push({name:'purchasecreditnotelineList3'})
+                }
+
+                let parsedLineData4=[];
+                if (data && data[4] && data[0][0] && field[0] && field[4]) {
+                    data[4].forEach(lineData=>
+                        parsedLineData4.push(field[4].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['purchasecreditnotelineList4']=parsedLineData4;
+                    field[0].push({name:'purchasecreditnotelineList4'})
                 }
                 
                 res.send({error,data:data?data[0]:null,field:field?field[0]:null})

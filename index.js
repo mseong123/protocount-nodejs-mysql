@@ -39,7 +39,7 @@ app.use((req,res,next)=>{
                     }
             else return data===''?null:data
             })
-        
+       
         next()
     }
     else next();
