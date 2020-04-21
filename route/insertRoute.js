@@ -24,7 +24,13 @@ function insertRoute(req,res,next,pool) {
     switch (req.body.item) {
         
         case 'stock':
-        pool.query('CALL INSERT_STOCK(?,?,?,?,?,?,?,?,?)',[...req.body.param],(error,data,field)=>{
+        pool.query('CALL INSERT_STOCK(?,?,?,?,?,?,?,?,?,?)',[...req.body.param],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break;
+
+        case 'stock_adjustment':
+        pool.query('CALL INSERT_STOCK_ADJUSTMENT(?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;

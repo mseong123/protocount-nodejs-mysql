@@ -22,7 +22,13 @@ function updateRoute(req,res,next,pool) {
     if (req.body)
     switch (req.body.item) {
         case 'stock':
-        pool.query('CALL UPDATE_STOCK(?,?,?,?,?,?,?,?,?)',[...req.body.param],(error,data,field)=>{
+        pool.query('CALL UPDATE_STOCK(?,?,?,?,?,?,?,?,?,?)',[...req.body.param],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break;
+
+        case 'stock_adjustment':
+        pool.query('CALL UPDATE_STOCK_ADJUSTMENT(?,?,?,?,?)',[...transformInput(req.body.param)],(error,data,field)=>{
             res.send({error,data,field});
         })
         break;

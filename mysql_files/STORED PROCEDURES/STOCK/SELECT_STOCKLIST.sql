@@ -32,6 +32,8 @@ SELECT STOCK_NUM AS NUM, STOCK_DESC AS DESCRIPTION,STOCK_PRICE AS PRICE,STOCK_MI
 -IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_STOCK_QTY) FROM purchase_debit_note_stock WHERE purchase_debit_note_stock.PURCHASE_DEBIT_NOTE_NUM=DOC_NUM_PARAM AND purchase_debit_note_stock.STOCK_NUM=stock.STOCK_NUM),0) 
 -IFNULL((SELECT SUM(PURCHASE_CREDIT_NOTE_STOCK_QTY) FROM purchase_credit_note_stock WHERE purchase_credit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)
 +IFNULL((SELECT SUM(PURCHASE_CREDIT_NOTE_STOCK_QTY) FROM purchase_credit_note_stock WHERE purchase_credit_note_stock.PURCHASE_CREDIT_NOTE_NUM=DOC_NUM_PARAM AND purchase_credit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)
++IFNULL((SELECT SUM(STOCK_ADJUSTMENTLINE_STOCK_QTY) FROM stock_adjustmentline WHERE stock_adjustmentline.STOCK_NUM=stock.STOCK_NUM),0) 
+-IFNULL((SELECT SUM(STOCK_ADJUSTMENTLINE_STOCK_QTY) FROM stock_adjustmentline WHERE stock_adjustmentline.STOCK_ADJUSTMENT_NUM=DOC_NUM_PARAM AND stock_adjustmentline.STOCK_NUM=stock.STOCK_NUM),0) 
 AS 'BAL QTY'
 FROM stock ORDER BY STOCK_NUM;
 
@@ -46,7 +48,8 @@ SELECT STOCK_NUM AS NUM, STOCK_DESC AS DESCRIPTION,STOCK_PRICE AS PRICE,STOCK_MI
 -IFNULL((SELECT SUM(PURCHASE_RETURN_STOCK_QTY) FROM purchase_return_stock WHERE purchase_return_stock.STOCK_NUM=stock.STOCK_NUM),0)
 +IFNULL((SELECT SUM(PURCHASE_INVOICE_STOCK_QTY) FROM purchase_invoice_stock WHERE purchase_invoice_stock.STOCK_NUM=stock.STOCK_NUM),0)
 +IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_STOCK_QTY) FROM purchase_debit_note_stock WHERE purchase_debit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)  
--IFNULL((SELECT SUM(PURCHASE_CREDIT_NOTE_STOCK_QTY) FROM purchase_credit_note_stock WHERE purchase_credit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)  
+-IFNULL((SELECT SUM(PURCHASE_CREDIT_NOTE_STOCK_QTY) FROM purchase_credit_note_stock WHERE purchase_credit_note_stock.STOCK_NUM=stock.STOCK_NUM),0) 
++IFNULL((SELECT SUM(STOCK_ADJUSTMENTLINE_STOCK_QTY) FROM stock_adjustmentline WHERE stock_adjustmentline.STOCK_NUM=stock.STOCK_NUM),0)   
 AS 'BAL QTY'
 FROM stock ORDER BY STOCK_NUM;
 END IF;

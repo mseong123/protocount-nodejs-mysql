@@ -7,6 +7,12 @@ function deleteRoute(req,res,next,pool) {
         })
         break;
 
+        case 'stock_adjustment':
+        pool.query('CALL DELETE_STOCK_ADJUSTMENT(?)',[req.body.id.map(item=>JSON.stringify(item)).join()],(error,data,field)=>{
+            res.send({error,data,field});
+        })
+        break;
+
         case 'debtor':
         pool.query('CALL DELETE_DEBTOR(?)',[req.body.id.map(item=>JSON.stringify(item)).join()],(error,data,field)=>{
             res.send({error,data,field});

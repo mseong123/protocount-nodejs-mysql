@@ -8,6 +8,19 @@ ROLLBACK;
 RESIGNAL;
 END;
 START TRANSACTION;
-SELECT *,STOCK_NUM AS STOCK_NUM_OLD FROM stock WHERE STOCK_NUM=STOCK_NUM_PARAM;
+SELECT *,0
+-IFNULL((SELECT SUM(DELIVERY_ORDER_STOCK_QTY) FROM delivery_order_stock WHERE delivery_order_stock.STOCK_NUM=stock.STOCK_NUM),0)
++IFNULL((SELECT SUM(DELIVERY_RETURN_STOCK_QTY) FROM delivery_return_stock WHERE delivery_return_stock.STOCK_NUM=stock.STOCK_NUM),0) 
+-IFNULL((SELECT SUM(SALES_INVOICE_STOCK_QTY) FROM sales_invoice_stock WHERE sales_invoice_stock.STOCK_NUM=stock.STOCK_NUM),0)
+-IFNULL((SELECT SUM(DEBIT_NOTE_STOCK_QTY) FROM debit_note_stock WHERE debit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)
++IFNULL((SELECT SUM(CREDIT_NOTE_STOCK_QTY) FROM credit_note_stock WHERE credit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)
++IFNULL((SELECT SUM(GOODS_RECEIVED_NOTE_STOCK_QTY) FROM goods_received_note_stock WHERE goods_received_note_stock.STOCK_NUM=stock.STOCK_NUM),0) 
+-IFNULL((SELECT SUM(PURCHASE_RETURN_STOCK_QTY) FROM purchase_return_stock WHERE purchase_return_stock.STOCK_NUM=stock.STOCK_NUM),0)
++IFNULL((SELECT SUM(PURCHASE_INVOICE_STOCK_QTY) FROM purchase_invoice_stock WHERE purchase_invoice_stock.STOCK_NUM=stock.STOCK_NUM),0)
++IFNULL((SELECT SUM(PURCHASE_DEBIT_NOTE_STOCK_QTY) FROM purchase_debit_note_stock WHERE purchase_debit_note_stock.STOCK_NUM=stock.STOCK_NUM),0)  
+-IFNULL((SELECT SUM(PURCHASE_CREDIT_NOTE_STOCK_QTY) FROM purchase_credit_note_stock WHERE purchase_credit_note_stock.STOCK_NUM=stock.STOCK_NUM),0) 
++IFNULL((SELECT SUM(STOCK_ADJUSTMENTLINE_STOCK_QTY) FROM stock_adjustmentline WHERE stock_adjustmentline.STOCK_NUM=stock.STOCK_NUM),0)   
+AS 'BAL QTY',
+STOCK_NUM AS STOCK_NUM_OLD FROM stock WHERE STOCK_NUM=STOCK_NUM_PARAM;
 COMMIT;
 END//

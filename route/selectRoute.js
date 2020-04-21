@@ -18,7 +18,32 @@ function selectRoute (req,res,next,pool) {
                 res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
             }
         )
-        
+        break;
+
+        case 'stock_adjustment':  
+        if (req.body.id) 
+            pool.query('CALL SELECT_STOCK_ADJUSTMENT(?)',[req.body.id],(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                dateParser(data?data[1]:null,field?field[1]:null)
+
+                let parsedLineData1=[];
+                if (data && data[1] && data[0][0] && field[0] && field[1]) {
+                    data[1].forEach(lineData=>
+                        parsedLineData1.push(field[1].map(field=>
+                            lineData[field.name]
+                        ))
+                    )
+                    data[0][0]['stockadjustmentlineList1']=parsedLineData1;
+                    field[0].push({name:'stockadjustmentlineList1'})
+                }
+
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            })
+        else pool.query('CALL SELECT_STOCK_ADJUSTMENTLIST()',(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                res.send({error:error,data:data?data[0]:null,field:field?field[0]:null})
+            }
+        )
         break;
 
         case 'debtor':
