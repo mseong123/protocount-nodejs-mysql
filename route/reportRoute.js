@@ -62,6 +62,30 @@ function reportRoute(req,res,next,pool) {
             })
         break;
 
+        case 'purchase_analysis_creditor_stock':
+            pool.query('CALL SELECT_PURCHASE_ANALYSIS_CREDITOR_STOCK(?,?,?,?)',[JSON.stringify(req.body.param[0])
+            ,JSON.stringify(req.body.param[1]),req.body.param[2].map(item=>JSON.stringify(item)).join(),
+            req.body.param[3].length>0? req.body.param[3].map(item=>JSON.stringify(item)).join():JSON.stringify('')
+            ]
+            ,(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                dateParser(data?data[1]:null,field?field[1]:null)
+                res.send({error,data:data?data:null,field:field?field:null});
+            })
+        break;
+
+        case 'purchase_analysis_stock_creditor':
+            pool.query('CALL SELECT_PURCHASE_ANALYSIS_STOCK_CREDITOR(?,?,?,?)',[JSON.stringify(req.body.param[0])
+            ,JSON.stringify(req.body.param[1]),req.body.param[2].map(item=>JSON.stringify(item)).join(),
+            req.body.param[3].length>0? req.body.param[3].map(item=>JSON.stringify(item)).join():JSON.stringify('')
+            ]
+            ,(error,data,field)=>{
+                dateParser(data?data[0]:null,field?field[0]:null)
+                dateParser(data?data[1]:null,field?field[1]:null)
+                res.send({error,data:data?data:null,field:field?field:null});
+            })
+        break;
+
         default:
         next('Error happened during /ReportItem request route.')
     }
