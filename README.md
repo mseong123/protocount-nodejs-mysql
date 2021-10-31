@@ -22,7 +22,7 @@ The following guidelines' purpose is to enable the set up of a local nodejs web 
 1) Clone this repository to target local folder and npm install dependencies.
 
 ```
-git clone https://github.com/mseong123/protocount-create-react-app.git <target folder>
+git clone https://github.com/mseong123/protocount-nodejs-mysql.git <target folder>
 cd <target folder>
 npm install
 ```
