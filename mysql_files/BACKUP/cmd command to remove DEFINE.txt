@@ -1,1 +1,4 @@
-sed 's/<string>//' <source file> > <target file>
+download and install sed program from http://gnuwin32.sourceforge.net/packages.html
+change environment variables so can execute sed.exe from cmd
+
+sed "s/<string>//" <source file> > <target file>
